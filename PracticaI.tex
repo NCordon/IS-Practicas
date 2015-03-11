@@ -47,6 +47,9 @@
 \let\oldemptyset\emptyset
 \let\emptyset\varnothing
 
+% Hipervínculos
+\usepackage{url}
+
 \usepackage[section]{placeins} % Para gráficas en su sección.
 \usepackage{mathpazo} % Use the Palatino font
 \usepackage[T1]{fontenc} % Required for accented characters
@@ -214,8 +217,45 @@
 \section*{Cuestión 1}
 \textbf{¿Qué modos y tipos de “Virtualización Hardware” existen?}
 \begin{answer}
-  Como dice el artículo \cite{Khirevich2010}
+ Las técnicas de virtualización hardware, usadas comúnmente para crear entornos de ejecución aislados para un 
+ servidor, son:
+ \begin{itemize}
+  \item \textbf{Virtualización completa (\textit{full virtualization})}: permite simular el hardware necesario
+  para que un SO diseñado con idéntico repertorio de instrucciones a la CPU host pueda ejecutarse en un entorno
+  aislado. Ejemplos de este tipo de virtualización son VirtualBox o VMware Server.
+  \item \textbf{Virtualización con apoyo hardware (\textit{hardware-assisted virtualization})}: en este tipo
+  de virtualización, se provee de soporte arquitectónico que permite correr varios sistemas operativos 
+  huésped de manera aislada en la misma máquina. Ejemplos de este tipo de virtualización pueden encontrarse
+  en Linux KVM, VMware Fusion, \ldots
+  \item \textbf{Virtualización parcial (\textit{partial virtualization})}: se simulan muchas de las características
+  del sistema hardware subyacente, incluyendo los espacios de direcciones. Cada máquina virtual dispone de un
+  espacio de direcciones distinto. Este método no permite virtualizar un SO al completo, pero sí ejecutar
+  aplicaciones en entornos totalmente aislados. Pese a ello, este método de virtualización está ampliamente
+  presente en sistemas operativos como Linux o Windows, dado que es más fácil de implementar que otros
+  tipos de virtuaizaciones y permite compartir recursos entre múltiples usuarios. Adolece de un importante problema:
+  si no se asignan los recursos suficientes en la virtualización, al ejecutar una aplicación que intente
+  usar más recursos de los destinados a la virtualización, la aplicación fallará.
+  \item \textbf{Virtualización a nivel de SO (\textit{OS level virtualization})}: en este tipo de virtualización,
+  varios servidores físicos pueden ser virtualizados a nivel de SO, en la capa del kernel, de manera aislada. 
+  Se crean entornos virtuales en un SO corriendo en un servidor físico desde el que se asignan recursos hardware y software.\\
+  Los sistemas operativos huésped comparten la misma instancia de SO host, incluido el kernel, aunque cada máquina lo ve 
+  como un sistema independiente. Ejemplos de este tipo de virtualización son Solaris Containers o Linux-VServer.
+  \item \textbf{Paravirtualización (\textit{paravirtualization})}: la máquina virtual no recrea un hardware
+  específico para la máquina, sino que se ofrece una API a través de la cual el SO virtualizado (para lo que
+  habría que modificar su código fuente), puede hacer llamadas al hipervisor (monitor de máquinas virtuales
+  que se encuentra en el SO host) para comunicarse directamente con el hardware del SO host.\\
+  Requiere apoyo hardware para efectuar la asignación de los espacios de direcciones.
+  
+  
+ \end{itemize}
 \end{answer}
+
+\section*{Cuestión 2}
+\textbf{Busque en Internet ofertas de servicios de, al menos, dos proveedores de
+VPS (Virtual Private Server) y compare con el precio de alquiler del servicio, con el de
+uso de servidores dedicados (administrados y no administrados) de características
+similares.}
+
 % prints author names as small caps
 \renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
 \renewcommand{\mkbibnamelast}[1]{\textsc{#1}}

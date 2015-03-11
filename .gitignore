@@ -42,3 +42,8 @@ Thumbs.db
 *.pdf
 *.toc
 *.tex.backup
+*.out
+*.xml
+*.blg
+*blx.bib
+*.bbl
