@@ -103,6 +103,14 @@
 }
 
 
+% To change level of indentation
+\newenvironment{answer}{%
+\begin{list}{}{%
+\addtolength{\hoffset}{2cm}
+}%
+\item[]}{\end{list}}
+
+
 %Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
 \usepackage{amsthm}
 \newtheorem*{mydef}{Definición}
@@ -163,5 +171,12 @@
 % Examples of inclussion of images
 %\imagent{ugr.jpg}{Logo de prueba}{ugr}{r}
 %\imagen{ugr.jpg}{Logo de prueba}{ugr2}
+
+\section*{Cuestión 1}
+\textbf{¿Qué modos y tipos de “Virtualización Hardware” existen?}
+\begin{answer}
+  
+\end{answer}
+
 
 \end{document}
