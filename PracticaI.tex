@@ -1,47 +1,22 @@
-%%%%
-% Modificación de una plantilla de Latex para adaptarla al castellano.
-%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Thin Sectioned Essay
-% LaTeX Template
-% Version 1.0 (3/8/13)
+%%%%%%%%%%%%%%%
+% This example shows the biblatex customization and footnote citation
+% approach discussed at
 %
-% This template has been downloaded from:
-% http://www.LaTeXTemplates.com
+%   www.khirevich.com/latex/bibliography
+%   www.khirevich.com/latex/biblatex
+%   www.khirevich.com/latex/footnote_citation
 %
-% Original Author:
-% Nicolas Diaz (nsdiaz@uc.cl) with extensive modifications by:
-% Vel (vel@latextemplates.com)
 %
-% License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% Included file "example_text.tex" uses the following citation commands:
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   \cite (citation number of normal size in square brackets, no cite info in footnote);
+%   \superfullcite (superscript citation number, full cite info in footnote);
+%   \sjcitep (superscript citation number, short cite info in footnote).
+%%%%%%%%%%%%%%%
 
-%----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
-%----------------------------------------------------------------------------------------
+\documentclass[a4paper,11pt]{article}
 
-\documentclass[a4paper, 11pt]{article} % Font size (can be 10pt, 11pt or 12pt) and paper size (remove a4paper for US letter paper)
-
-\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
-\usepackage{graphicx} % Required for including pictures
-\usepackage[usenames,dvipsnames]{color} % Coloring code
-\usepackage{wrapfig} % Allows in-line images
 \usepackage[utf8]{inputenc}
-
-% Imágenes
-\usepackage{graphicx} 
-
-% Referencias
-\usepackage{fncylab}
-\labelformat{figure}{\textit{\figurename\space #1}}
-
-\usepackage{amsmath}
-% para importar svg
-%\usepackage[generate=all]{svgfig}
-
 % sudo apt-get install texlive-lang-spanish
 \usepackage[spanish]{babel} % English language/hyphenation
 \selectlanguage{spanish}
@@ -80,8 +55,90 @@
 \parskip=8pt
 \linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
 
+
+% Imágenes
+\usepackage{graphicx}
+\usepackage{wrapfig} % Allows in-line images
+
+% Referencias
+\usepackage{fncylab}
+\labelformat{figure}{\textit{\figurename\space #1}}
+
+
+\usepackage{charter} % optional: activate bitstream charter font
+
+\usepackage[hyperref=true,
+            url=false,
+            isbn=false,
+            backref=true,
+            style=custom-numeric-comp,
+            %citereset=chapter,
+            maxcitenames=3,
+            maxbibnames=100,
+            backend=bibtex, % while checking on one of my (newest) systems, this option was needed to generate bibliography
+            block=none]{biblatex}
+
+\usepackage{hyperref}
+
+% back reference text preceding the page number ("see p.")
+\DefineBibliographyStrings{english}{%
+    backrefpage  = {see p.}, % for single page number
+    backrefpages = {see pp.} % for multiple page numbers
+}
+
+% the followings activate 'custom-english-ordinal-sscript.lbx'
+% in order to print ordinal 'edition' suffixes as superscripts,
+% and adjusts (reduces) spacing between suffix and following "ed."
+\DeclareLanguageMapping{english}{custom-english-ordinal-sscript}
+\DeclareFieldFormat{edition}%
+                   {\ifinteger{#1}%
+                    {\mkbibordedition{#1}\addthinspace{}ed.}%
+                    {#1\isdot}}
+
+% removes period at the very end of bibliographic record
+\renewcommand{\finentrypunct}{}
+
+% removes period after DOI and suppresses capitalization
+% of the word following DOI ("See p. xx" -> "see p. xx")
+\renewcommand{\newunitpunct}{\addspace\midsentence}
+
+\DeclareFieldFormat{journaltitle}{\mkbibemph{#1},} % italic journal title with comma
+\DeclareFieldFormat[inbook,thesis]{title}{\mkbibemph{#1}\addperiod} % italic title with period
+\DeclareFieldFormat[article]{title}{#1} % title of journal article is printed as normal text
+\DeclareFieldFormat[article]{volume}{\textbf{#1}\addcolon\space} % makes volume of journal bold and adds colon
+\DeclareFieldFormat{pages}{#1} % removes pagination (p./pp.) before page numbers
+
+%%%%%%%%%
+% the command \sjcitep defined below prints footnote citation above punctuation
+\newlength{\spc} % declare a variable to save spacing value
+\newcommand{\sjcitep}[2][]{% new command with two arguments: optional (#1) and mandatory (#2)
+        \settowidth{\spc}{#1}% set value of \spc variable to the width of #1 argument
+        \addtolength{\spc}{-1.8\spc}% subtract from \spc about two (1.8) of its values making its magnitude negative
+        #1% print the optional argument
+        \hspace*{\spc}% print an additional negative spacing stored in \spc after #1
+        \supershortnotecite{#2}}% print (cite) the mandatory argument
+%%%%%%%%%
+
+
+
+%Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\newtheorem*{mydef}{Definición}
+\newtheorem{mydefn}{Definición}
+\newtheorem{theorem}{Teorema}
+\everymath{\displaystyle} % Displaystyle por defecto
+
+
+
+% To change level of indentation
+\newenvironment{answer}{%
+\begin{list}{}{%
+\addtolength{\hoffset}{2cm}
+}%
+\item[]}{\end{list}}
+
+
 \makeatletter
-\renewcommand\@biblabel[1]{\textbf{#1.}} % Change the square brackets for each bibliography item from '[1]' to '1.'
 \renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
 \newcommand{\imagent}[4]{
   \begin{wrapfigure}{#4}{0.5\textwidth}
@@ -102,26 +159,8 @@
   \end{figure}
 }
 
-
-% To change level of indentation
-\newenvironment{answer}{%
-\begin{list}{}{%
-\addtolength{\hoffset}{2cm}
-}%
-\item[]}{\end{list}}
-
-
-%Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
-\usepackage{amsthm}
-\newtheorem*{mydef}{Definición}
-\newtheorem{mydefn}{Definición}
-\newtheorem{theorem}{Teorema}
-\everymath{\displaystyle} % Displaystyle por defecto
-
-
+\bibliography{references}  % includes file "example_ref_list.bib" with data on the cited references
 \begin{document}
-
-
 \begin{titlepage}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
@@ -175,8 +214,13 @@
 \section*{Cuestión 1}
 \textbf{¿Qué modos y tipos de “Virtualización Hardware” existen?}
 \begin{answer}
-  
+  Como dice el artículo \cite{Khirevich2010}
 \end{answer}
-
+% prints author names as small caps
+\renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
+\renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameaffix}[1]{\textsc{#1}}
+\printbibliography
 
 \end{document}
