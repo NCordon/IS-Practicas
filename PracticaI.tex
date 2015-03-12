@@ -233,6 +233,7 @@ similares.}
 \textbf{Busque dos soluciones de VMSW alternativas a las propuestas de VMWare
 y Virtual Box. Explique sus principales características y diferencias con las soluciones
 que vamos a emplear en clase}
+\begin{answer}
 
 VirtualBox es propiedad de la empresa Oracle Corporation, se ejecuta bajo CPUs tanto de 64 como de 32 bits, permite
 virtualizar sistemas con repertorio de instrucciones de 32 y 64 bits. Está disponible para Windows, Linux, Mac OS X, Solaris
@@ -259,5 +260,35 @@ de virtualización), tiene soporte para la instalación de drivers en los sistem
 permite correr bajo velocidades saproximadas al sistema host.
 
 % http://en.wikipedia.org/wiki/Comparison_of_platform_virtualization_software
+\end{answer}
+
+\section{Cuestión 4}
+\textbf{Enumere las cinco innovaciones en Windows 2012 R2 respecto a 2008R2 que considere más importantes.}
+\begin{answer}
+\begin{enumerate}
+ \item Windows Server 2012 permite efectuar una instalación Server Core(instalación minimal) incluyendo interfaz gráfica,
+ mientras que Windows Server 2008 sólo permitía efectuar la instalación Server Core con línea de comandos.
+ \item Se ha mejorado el Server Message Block (SMB), \textit{protocolo de compartición de archivos, impresoras, puertos seriales y abstracción de
+ las comunicaciones entre cliente y servidor}, %https://www.samba.org/cifs/docs/what-is-smb.html
+ que en la versión 3.0 presente en Windows Server 2012 incorpora mejoras significativas en cuanto a rendimiento, seguridad,
+ y añade herramientas administrativas respecto a versiones anteriores.
+ %http://www.windowsnetworking.com/articles-tutorials/windows-server-2012/improvements-smb-30-and-302-protocol-updates.html
+ \item Windows Server 2012 proporciona Dynamic Access Control (DAC), que permite establecer un sistema automático (para
+ ciertos casos, si lo desea el administrador, también puede establecerse de manera manual) para detectar y etiquetar
+ datos considerados sensibles (números de identificación, números de cuentas bancarias\ldots); restringir el acceso a
+ dichos datos a ciertos grupos de usuarios; auditar el acceso a ficheros; y aplicar RMS (Rights Management Services), que permite
+ encriptar ficheros y restringir acceso a los mismos, de manera automática a ciertos ficheros basándose en la información contenida en ellos.
+ %https://technet.microsoft.com/en-us/library/hh831717.aspx
+ \item Mejora en el sistema de virtualización Hyper-V (competencia de VMware en la virtualización en servidores),
+ añadiendo la Hyper-V Replica. Los trabajos que se virtualizan con Hyper-V pueden replicarse, esto es, puede almacenarse
+ una copia de seguridad del entorno de ejecución en ese momento, llevándolos a un servidor de réplicas, y pudiendo
+ restaurar en cualquier momento una copia de la virtualización.
+ \item Windows Server 2012 incluye un nuevo sistema de archivos, llamado ReFS, que hereda de NTFS, pero deja atrás
+ algunas de sus características, como las cuotas de disco o la compresión de archivos, para proporcionar características
+ nuevas como la verificación de datos. Además, ReFS aumenta el límite teórico de tamaño de sistema de archivos (de 16
+ exabytes a 256 zetabytes).
+ %http://www.techrepublic.com/blog/10-things/10-compelling-reasons-to-upgrade-to-windows-server-2012/
+\end{enumerate}
+\end{answer}
 
 \end{document}
