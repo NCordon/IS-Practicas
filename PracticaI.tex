@@ -15,9 +15,11 @@
 %%%%%%%%%%%%%%%
 
 \documentclass[a4paper,11pt]{article}
-
+% Símbolo del euro
+\usepackage[gen]{eurosym}
+% Codificación
 \usepackage[utf8]{inputenc}
-% sudo apt-get install texlive-lang-spanish
+% Idioma
 \usepackage[spanish]{babel} % English language/hyphenation
 \selectlanguage{spanish}
 % Hay que pelearse con babel-spanish para el alineamiento del punto decimal
@@ -67,61 +69,7 @@
 \usepackage{fncylab}
 \labelformat{figure}{\textit{\figurename\space #1}}
 
-
-\usepackage{charter} % optional: activate bitstream charter font
-
-\usepackage[hyperref=true,
-            url=false,
-            isbn=false,
-            backref=true,
-            style=custom-numeric-comp,
-            %citereset=chapter,
-            maxcitenames=3,
-            maxbibnames=100,
-            backend=bibtex, % while checking on one of my (newest) systems, this option was needed to generate bibliography
-            block=none]{biblatex}
-
 \usepackage{hyperref}
-
-% back reference text preceding the page number ("see p.")
-\DefineBibliographyStrings{english}{%
-    backrefpage  = {see p.}, % for single page number
-    backrefpages = {see pp.} % for multiple page numbers
-}
-
-% the followings activate 'custom-english-ordinal-sscript.lbx'
-% in order to print ordinal 'edition' suffixes as superscripts,
-% and adjusts (reduces) spacing between suffix and following "ed."
-\DeclareLanguageMapping{english}{custom-english-ordinal-sscript}
-\DeclareFieldFormat{edition}%
-                   {\ifinteger{#1}%
-                    {\mkbibordedition{#1}\addthinspace{}ed.}%
-                    {#1\isdot}}
-
-% removes period at the very end of bibliographic record
-\renewcommand{\finentrypunct}{}
-
-% removes period after DOI and suppresses capitalization
-% of the word following DOI ("See p. xx" -> "see p. xx")
-\renewcommand{\newunitpunct}{\addspace\midsentence}
-
-\DeclareFieldFormat{journaltitle}{\mkbibemph{#1},} % italic journal title with comma
-\DeclareFieldFormat[inbook,thesis]{title}{\mkbibemph{#1}\addperiod} % italic title with period
-\DeclareFieldFormat[article]{title}{#1} % title of journal article is printed as normal text
-\DeclareFieldFormat[article]{volume}{\textbf{#1}\addcolon\space} % makes volume of journal bold and adds colon
-\DeclareFieldFormat{pages}{#1} % removes pagination (p./pp.) before page numbers
-
-%%%%%%%%%
-% the command \sjcitep defined below prints footnote citation above punctuation
-\newlength{\spc} % declare a variable to save spacing value
-\newcommand{\sjcitep}[2][]{% new command with two arguments: optional (#1) and mandatory (#2)
-        \settowidth{\spc}{#1}% set value of \spc variable to the width of #1 argument
-        \addtolength{\spc}{-1.8\spc}% subtract from \spc about two (1.8) of its values making its magnitude negative
-        #1% print the optional argument
-        \hspace*{\spc}% print an additional negative spacing stored in \spc after #1
-        \supershortnotecite{#2}}% print (cite) the mandatory argument
-%%%%%%%%%
-
 
 
 %Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
@@ -136,7 +84,7 @@
 % To change level of indentation
 \newenvironment{answer}{%
 \begin{list}{}{%
-\addtolength{\hoffset}{2cm}
+\addtolength{\hoffset}{0cm}
 }%
 \item[]}{\end{list}}
 
@@ -162,7 +110,10 @@
   \end{figure}
 }
 
-\bibliography{references}  % includes file "example_ref_list.bib" with data on the cited references
+
+%Sections don't get numbered
+\setcounter{secnumdepth}{0}
+
 \begin{document}
 \begin{titlepage}
 
@@ -214,7 +165,7 @@
 %\imagent{ugr.jpg}{Logo de prueba}{ugr}{r}
 %\imagen{ugr.jpg}{Logo de prueba}{ugr2}
 
-\section*{Cuestión 1}
+\section{Cuestión 1}
 \textbf{¿Qué modos y tipos de “Virtualización Hardware” existen?}
 \begin{answer}
  Las técnicas de virtualización hardware, usadas comúnmente para crear entornos de ejecución aislados para un 
@@ -246,21 +197,53 @@
   que se encuentra en el SO host) para comunicarse directamente con el hardware del SO host.\\
   Requiere apoyo hardware para efectuar la asignación de los espacios de direcciones.
   
+  %http://en.wikipedia.org/wiki/Hardware_virtualization
+  %http://es.wikipedia.org/wiki/Virtualizaci%C3%B3n
   
  \end{itemize}
 \end{answer}
 
-\section*{Cuestión 2}
+\section{Cuestión 2}
 \textbf{Busque en Internet ofertas de servicios de, al menos, dos proveedores de
 VPS (Virtual Private Server) y compare con el precio de alquiler del servicio, con el de
 uso de servidores dedicados (administrados y no administrados) de características
 similares.}
+\begin{answer}
+ Se han escogido como proveedores para realizar el ejercicio:
+ \begin{itemize}
+  \item Softlayer Inc.  \url{https://www.softlayer.com}\\
+   Oferta un servidor VPS no administrado, localizado en Dalas (EEUU), con 8cores a 2GHz, 8 GB de RAM, 2 discos duros(uno de 
+   100 GB y otro de 400 GB), Ubuntu 14.04 LTS como SO, 5000 GB de tráfico, con una sola IP, por 249.60 \$/mes.
+  
+   También ofrece un servidor dedicado no administrado, localizado en Dalas (EEUU), con procesador Xeon 2650(8 cores x 2GHz), 20 MB caché,
+   8 GB de RAM, 1 disco duro de 500 GB, Ubuntu 14.04 LTS como SO, y 20000 GB de tráfico, con una única IP, por 499.00 \$/mes
+  \item Liquid Web Inc. \url{https://www.liquidweb.com}\\
+   Tiene servidores VPS no administrados, con 8GB de RAM, 300 GB de disco duro, 4 cores, CentOS como SO, y 5 TB de tráfico mensual, a 220\$/mes.
+   
+   También tiene servidores dedicados no administrados, con 8 GB de RAM, 1TB de disco duro, 4 cores y CentOS como SO, y 5 TB de tráfico mensual, a 199\$/mes
+  \item Host Europe Iberia S.L. \url{https://www.hosteurope.es/}\\
+   Ofrece un servidor VPS administrado, con 8 GB de RAM, 600 GB de disco duro, tráfico ilimitado, CentOS como SO,
+   1 IP y 1 dominio propios por 39.99 /mes.\\
+   Ofrece servidores dedicados administrados, con 32 GB de RAM, 2x600 GB de disco duro, tráfico ilimitado, CentOS como
+   SO, 2 IP propias y dominios ilimitados por 119,35 /mes.
+ \end{itemize}
+\end{answer}
+
+\section{Cuestión 3}
+\textbf{Busque dos soluciones de VMSW alternativas a las propuestas de VMWare
+y Virtual Box. Explique sus principales características y diferencias con las soluciones
+que vamos a emplear en clase}
+
+VirtualBox es propiedad de la empresa Oracle Corporation, se ejecuta bajo CPUs tanto de 64 como de 32 bits, permite
+virtualizar sistemas con repertorio de instrucciones de 32 y 64 bits. Está disponible para Windows, Linux, Mac OS X, Solaris
+y FreeBSD, y permite virtualizar sistemas operativos Linux, Windows, DOS, Mac OS X, Solaris y OpenBSD. Tiene licencia
+GPL para uso particular. Es propietario en su versión comercial para empresas.
+
+VMware Player está creado por la empresa WMware, se ejecuta bajo CPUs de 64 bits, puede virtualizar sistemas de arquitectura
+de instrucciones de 32 y 64 bits, está disponible para los SO Windows y Linux, y tiene licencia Propietaria, pero libre
+de coste para uso personal. Permite virtualizar los mismos sistemas operativos que VirtualBox, además de BeOS, Darwin,
+Netware, \ldots
 
 % prints author names as small caps
-\renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
-\renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
-\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
-\renewcommand{\mkbibnameaffix}[1]{\textsc{#1}}
-\printbibliography
 
 \end{document}
