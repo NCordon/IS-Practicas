@@ -236,14 +236,28 @@ que vamos a emplear en clase}
 
 VirtualBox es propiedad de la empresa Oracle Corporation, se ejecuta bajo CPUs tanto de 64 como de 32 bits, permite
 virtualizar sistemas con repertorio de instrucciones de 32 y 64 bits. Está disponible para Windows, Linux, Mac OS X, Solaris
-y FreeBSD, y permite virtualizar sistemas operativos Linux, Windows, DOS, Mac OS X, Solaris y OpenBSD. Tiene licencia
-GPL para uso particular. Es propietario en su versión comercial para empresas.
+y FreeBSD, y permite virtualizar sistemas operativos arbitrarios con velocidad cercana al sistema host, soportando 
+instalación de controladores nativos en el SO huésped. Tiene licencia GPL para uso particular. Es propietario en su 
+versión comercial para empresas.
 
 VMware Player está creado por la empresa WMware, se ejecuta bajo CPUs de 64 bits, puede virtualizar sistemas de arquitectura
 de instrucciones de 32 y 64 bits, está disponible para los SO Windows y Linux, y tiene licencia Propietaria, pero libre
-de coste para uso personal. Permite virtualizar los mismos sistemas operativos que VirtualBox, además de BeOS, Darwin,
-Netware, \ldots
+de coste para uso personal. Permite virtualizar sistemas operativos arbitrarios, soporta instalación de controladores
+en los SO huésped, y permite trabajar en dichos SO con una velocidad cercana al SO host.
 
-% prints author names as small caps
+VirtualBox y VMware permiten efectuar virtualización hardware.
+
+Xen es propiedad de Citrix Systems. Se ejecuta en sistemas Linux tanto de 32 como 64 bits y tiene licencia libre: GNU GPLv2.
+La principal diferencia con WMware y VirtualBox es que no permite la ejecución de sistemas operativos arbitrarios, 
+y que permite virtualización hardware, paravirtualización, con velocidades que pueden llegar a ser equivalentes
+a las del sistema host. Es compatible con la instalación de drivers en la máquina virtualizada.
+
+KVM es propiedad de Red Hat, permite crear y se ejecuta bajo sistemas de 32 y 64 bits. Está disponible para Linux y FreeBSD
+y tiene licencia libre GPL v2. Posibilita efectuar virtualización hardware, pero sólo en máquinas
+que soporten virtualizaciones de los tipos específicos AMD-V y VT-x (no todos los procesadores soportan este tipo
+de virtualización), tiene soporte para la instalación de drivers en los sistemas virtualizados, a los que 
+permite correr bajo velocidades saproximadas al sistema host.
+
+% http://en.wikipedia.org/wiki/Comparison_of_platform_virtualization_software
 
 \end{document}
