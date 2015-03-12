@@ -15,7 +15,7 @@
 \makeatother
 % To work with bibtex
 %\usepackage{natbib}
-\usepackage[backend=bibtex]{biblatex}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
 \bibliography{references}
 \usepackage{longtable}
 \usepackage{tabu}
@@ -57,7 +57,12 @@
 \labelformat{figure}{\textit{\figurename\space #1}}
 
 \usepackage{hyperref}
-
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
 
 %Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
 \usepackage{amsthm}
@@ -156,7 +161,7 @@
 \textbf{¿Qué modos y tipos de “Virtualización Hardware” existen?}
 \begin{answer}
  Las técnicas de virtualización hardware, usadas comúnmente para crear entornos de ejecución aislados para un 
- servidor, son:
+ servidor, son: \cite{hardv} \cite{virt}
  \begin{itemize}
   \item \textbf{Virtualización completa (\textit{full virtualization})}: permite simular el hardware necesario
   para que un SO diseñado con idéntico repertorio de instrucciones a la CPU host pueda ejecutarse en un entorno
@@ -183,9 +188,6 @@
   habría que modificar su código fuente), puede hacer llamadas al hipervisor (monitor de máquinas virtuales
   que se encuentra en el SO host) para comunicarse directamente con el hardware del SO host.\\
   Requiere apoyo hardware para efectuar la asignación de los espacios de direcciones.
-  
-  %http://en.wikipedia.org/wiki/Hardware_virtualization
-  %http://es.wikipedia.org/wiki/Virtualizaci%C3%B3n
   
  \end{itemize}
 \end{answer}
@@ -246,7 +248,7 @@ que soporten virtualizaciones de los tipos específicos AMD-V y VT-x (no todos l
 de virtualización), tiene soporte para la instalación de drivers en los sistemas virtualizados, a los que 
 permite correr bajo velocidades saproximadas al sistema host.
 
-% http://en.wikipedia.org/wiki/Comparison_of_platform_virtualization_software
+\cite{comp}
 \end{answer}
 
 \section{Cuestión 4}
@@ -317,7 +319,6 @@ Se encarga de entre otras cosas:
   \item Otros SOs Unix (FreeBSD, HP-UX, Solaris, OS X Server) son usados en el 30.18\% de los servidores.
   \item Windows Server (2003, 2008, 2012) tiene una cuota de mercado del 33.10\%.
  \end{itemize}
- Como dice \cite{Prueba}
  \end{answer}
 %\bibliographystyle{te}
 
