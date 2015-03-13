@@ -84,25 +84,26 @@
 \makeatletter
 \renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
 \newcommand{\imagent}[4]{
-  \begin{wrapfigure}{#4}{0.5\textwidth}
+  \begin{wrapfigure}{#4}{0.7\textwidth}
     \begin{center}
-    \includegraphics[width=0.5\textwidth]{#1}
+    \includegraphics[width=0.7\textwidth]{#1}
     \end{center}
     \caption{#3}
     \label{#4}
   \end{wrapfigure}
 }
 \newcommand{\imagen}[3]{
-  \begin{figure}[here]
+  \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=0.5\textwidth]{#1}
+    \includegraphics[width=0.7\textwidth]{#1}
     \end{center}
     \caption{#2}
     \label{#3}
   \end{figure}
 }
 
-
+%Customize enumerate tag
+\usepackage{enumitem}
 %Sections don't get numbered
 \setcounter{secnumdepth}{0}
 
@@ -255,28 +256,31 @@ permite correr bajo velocidades saproximadas al sistema host.
 \textbf{Enumere las cinco innovaciones en Windows 2012 R2 respecto a 2008R2 que considere más importantes.}
 \begin{answer}
 \begin{enumerate}
- \item Windows Server 2012 permite efectuar una instalación Server Core(instalación minimal) incluyendo interfaz gráfica,
+ \item \cite{smbi} Windows Server 2012 permite efectuar una instalación Server Core(instalación minimal) incluyendo interfaz gráfica,
  mientras que Windows Server 2008 sólo permitía efectuar la instalación Server Core con línea de comandos.
- \item Se ha mejorado el Server Message Block (SMB), \textit{protocolo de compartición de archivos, impresoras, puertos seriales y abstracción de
- las comunicaciones entre cliente y servidor}, %https://www.samba.org/cifs/docs/what-is-smb.html
- que en la versión 3.0 presente en Windows Server 2012 incorpora mejoras significativas en cuanto a rendimiento, seguridad,
- y añade herramientas administrativas respecto a versiones anteriores.
- %http://www.windowsnetworking.com/articles-tutorials/windows-server-2012/improvements-smb-30-and-302-protocol-updates.html
- \item Windows Server 2012 proporciona Dynamic Access Control (DAC), que permite establecer un sistema automático (para
+ 
+ \item Se ha mejorado el Server Message Block (SMB), que tal y como lo define \cite{smb} es un 
+ \textit{protocolo de compartición de archivos, impresoras, puertos seriales y abstracción de las comunicaciones entre 
+ cliente y servidor}, que en la versión 3.0 presente en Windows Server 2012 incorpora mejoras significativas en cuanto a 
+ rendimiento, seguridad, y añade herramientas administrativas respecto a versiones anteriores.
+ 
+ \item \cite{dac}Windows Server 2012 proporciona Dynamic Access Control (DAC), que permite establecer un sistema automático (para
  ciertos casos, si lo desea el administrador, también puede establecerse de manera manual) para detectar y etiquetar
  datos considerados sensibles (números de identificación, números de cuentas bancarias\ldots); restringir el acceso a
  dichos datos a ciertos grupos de usuarios; auditar el acceso a ficheros; y aplicar RMS (Rights Management Services), que permite
  encriptar ficheros y restringir acceso a los mismos, de manera automática a ciertos ficheros basándose en la información contenida en ellos.
- %https://technet.microsoft.com/en-us/library/hh831717.aspx
+ 
  \item Mejora en el sistema de virtualización Hyper-V (competencia de VMware en la virtualización en servidores),
  añadiendo la Hyper-V Replica. Los trabajos que se virtualizan con Hyper-V pueden replicarse, esto es, puede almacenarse
  una copia de seguridad del entorno de ejecución en ese momento, llevándolos a un servidor de réplicas, y pudiendo
  restaurar en cualquier momento una copia de la virtualización.
+ 
  \item Windows Server 2012 incluye un nuevo sistema de archivos, llamado ReFS, que hereda de NTFS, pero deja atrás
  algunas de sus características, como las cuotas de disco o la compresión de archivos, para proporcionar características
  nuevas como la verificación de datos. Además, ReFS aumenta el límite teórico de tamaño de sistema de archivos (de 16
- exabytes a 256 zetabytes).
- %http://www.techrepublic.com/blog/10-things/10-compelling-reasons-to-upgrade-to-windows-server-2012/
+ exabytes a 256 zetabytes).\\
+ 
+ La referencia para esta pregunta ha sido, mayormente: \cite{techr}	
 \end{enumerate}
 \end{answer}
 
@@ -285,7 +289,7 @@ permite correr bajo velocidades saproximadas al sistema host.
 (\url{https://maas.ubuntu.com/})?}
 \begin{answer}
 La empresa que está detrás de Ubuntu es Canonical Ltd.
-Se encarga de entre otras cosas:
+Se encarga de entre otras cosas: \cite{canonical} \cite{wcanonical}
 
 \begin{itemize}
  \item Desarrollar Unity (una variante de Gnome que constituye el servidor gráfico con el que Canonical
@@ -298,29 +302,97 @@ Se encarga de entre otras cosas:
  \item Construir centros de datos en la nube para empresas de telecomunicaciones.
  \item Proporcionar soporte diario a compañías como Netflix o Google
 \end{itemize}
- % http://www.canonical.com/about
- MASS (Metal As A Service) permite establecer un control sobre los servidores físicos análogo al que se tiene sobre
+
+ \cite{mass} MASS (Metal As A Service) permite establecer un control sobre los servidores físicos análogo al que se tiene sobre
  máquinas virtuales. Permite establecer un control centralizado desde el que se pueden levantar o apagar nodos de servidores,
  redistribuir los recursos hardware, \ldots
- % http://maas.ubuntu.com/docs/
+\end{answer}
  
- 
- %http://en.wikipedia.org/wiki/Canonical_(company)
- \end{answer}
- \section{Cuestión 7}
- \textbf{Busque indicadores de porcentaje de uso global o de cuota de mercado de SO de Servidores. No olvide poner 
- la fuente de donde saca la información y preste atención a la fecha de ésta}
- \begin{answer}
+\section{Cuestión 7}
+\textbf{Busque indicadores de porcentaje de uso global o de cuota de mercado de SO de Servidores. No olvide poner 
+la fuente de donde saca la información y preste atención a la fecha de ésta}
+\begin{answer}
   
- Según, %http://en.wikipedia.org/wiki/Usage_share_of_operating_systems#Market_share_by_category
- donde se proporciona información de una encuesta realizada por W3Techs a fecha de Septiembre de 2014:
- \begin{itemize}
+Según \cite{quota}, donde se proporciona información de una encuesta realizada por \href{http://w3techs.com/}{W3Techs} a fecha de Septiembre de 2014:
+\begin{itemize}
   \item Linux (Debian, Ubuntu, CentOS, Red Hat Enterprise Linux, Gentoo) es usado en el 36.72\% de los servidores.
   \item Otros SOs Unix (FreeBSD, HP-UX, Solaris, OS X Server) son usados en el 30.18\% de los servidores.
   \item Windows Server (2003, 2008, 2012) tiene una cuota de mercado del 33.10\%.
- \end{itemize}
- \end{answer}
-%\bibliographystyle{te}
+\end{itemize}
+\end{answer}
+
+\section{Cuestión 8}
+\textbf{a) ¿De qué es el acrónimo RAID? b) ¿Qué tipos de RAID hay? c) ¿Qué diferencia hay entre RAID mediante SW y 
+mediante HW?}
+\begin{answer}
+\begin{enumerate}[label=\alph*.]
+\item Originalmente RAID era acrónimo de Redundant Array of Inexpensive disks, aunque por intereses comerciales
+(Inexpensive = de bajo coste) se cambió el acrónimo a Redundant Array of Independet disks.
+\item Existen, entre otros, los siguientes tipos de RAID: \cite{raid} \cite{imgsraid}
+  \begin{itemize}
+    \item \underline{RAID 0(Data Striping)}: Los datos se dividen y se envían sus partes a varios discos (al menos dos). De esta manera, puede paralelizarse
+    la lectura de ficheros, aunque si falla alguno de los discos, se pierden todos los datos del fichero. Para ilustrar
+    este sistema, en \ref{raid0} se observa cómo se almacenan 6 bloques de un archivo en los dos discos.
+    \imagen{raid-0.png}{Ejemplo de RAID 0}{raid0}
+    
+    \item \underline{RAID 1(Mirroring)}: Se almacenan dos copias para cada datos, que se envían a dos discos distintos(el que almacena
+    la copia de seguridad se llama disco espejo). Este sistema permite leer de cualquiera de los dos discos que contienen
+    un dato, pudiendo paralelizarse también la lectura, pero es muy costoso en tanto que se necesitan el doble de discos
+    para almacenar un dato que en RAID 0. Siendo A,B,C bloques de un fichero, se ilustra el funcionamiento de este
+    tipo de RAID en \ref{raid1}
+    \imagen{raid-1.png}{Ejemplo de RAID 1}{raid1}
+    \item \underline{RAID 2}: no usado en la práctica, sólo constituye un modelo teórico. Divide los bits de los bloques de datos y
+    los reparte entre los distintos discos, almacenándose bits de comprobación en otro/s disco/s. Para la detección de errores
+    se usa un código de detección llamado paridad de Hamming. El coste de su implementación es muy elevado, por eso este sistema
+    no se usa.
+    
+    \item \underline{RAID 3}: hay un disco que se usa para almacenar datos de paridades. Los bloques se dividen en tantos trozos
+    como discos(sin contar el de paridad, que almacenará un valor para poder comprobar cuando se recupere el bloque que 
+    no se ha perdido información porque alguno de los discos haya fallado) y se almacena un trozo en cada uno de ellos.
+    
+    \item \underline{RAID 4}: cuando se almacena un fichero, los bloques se dividen entre los distintos discos (en este caso los bloques
+    no se trocean), y se usa un disco fijo para almacenar la paridad(un valor comprobatorio de la integridad de todos los
+    bloques que conforman un determinado archivo).
+    
+    \item \underline{RAID 5}: análogo al RAID 4, pero en este caso no hay un único disco de paridad, sino que la paridad se va
+    almacenando por turnos en todos los discos (por ejemplo, cuando se almacene el primer bloque, la paridad se guardará
+    en el disco 1, cuando llegue otro bloque, la paridad se guardará en el disco 2, \ldots). Ej. En \ref{raid5}, cuando
+    se almacenan A y B en Disk1 y Disk2 resp., se guarda un bloque de paridad p1 en Disk3; al almacenar C y D en
+    Disk1 y Disk3, se almacena un bloque de paridad en 2; al guardar E en Disk2 y F en Disk3, el bloque de paridad p3
+    es guardado en Disk1.
+    \imagen{raid-5.png}{Ejemplo de RAID 5}{raid5}
+    
+    \item \underline{RAID 6}: usa el mismo principio que RAID 5, pero se almacenan ahora dos bloques de paridad (se necesita por tanto
+    un disco más que en RAID 5 para almacenar la misma cantidad de datos).
+    
+    \item \underline{RAID 1+0}: los bloques de un archivo se reparten entre las divisiones RAID 1(conjuntos de dos discos), donde
+    en cada división cada bloque es almacenado en dos discos distintos.
+  \end{itemize}
+  
+  \item \cite{swhwraid} El software RAID conlleva un procesamiento extra por parte de la placa madre del servidor (CPU y buses), que
+  en caso de usar RAIDs con paridad puede ocasionar un sobrecoste importante sobre los recursos del sistema,
+  mientras que el hardware RAID efectúa el procesamiento de los discos a nivel de dispositivos de almacenamiento, sin
+  el coste para buses y CPU de la máquina que se tiene en el software RAID. Además, el RAID vía software se configura
+  por el Sistema Operativo, lo que imposibilita que las particiones presentes en el RAID Puedan ser compartidas entre
+  sistemas operativos.
+
+\end{enumerate}
+\end{answer}
+
+\section{Cuestión 9}
+\textbf{a) ¿Qué es LVM? b)¿Qué ventaja tiene para un servidor de gama baja? c)Si va a tener un servidor web, ¿le daría
+un tamaño grande o pequeño a /var?}
+\begin{answer}
+ \begin{enumerate}[label=\alph*.]
+  \item \cite{lvm} LVM(Logic Volume Manager - Gestor de Volúmenes Lógicos) es un método de asignación de espacio en disco que crea
+  volúmenes lógicos, que pueden ser fácilmente redimensionados, en lugar de particiones. Estos volúmenes lógicos son
+  una capa de abstracción entre el sistema de archivos y el almacenamiento físico.
+  En LVM, varios volúmenes físicos conforman un grupo de volúmenes lógicos, donde un volumen físico sólo puede englobar
+  a una unidad de disco. Los grupos de volúmenes lógicos se dividen en volúmenes lógicos \texttt{/home,/},\ldots. Cuando
+  dichos volúmenes lógicos alcanzan su máxima capacidad, se podría dedicar espacio libre de otro volumen lógico
+  adscrito al mismo grupo de volúmenes lógico y redimensionarlos.
+ \end{enumerate}
+\end{answer}
 
 \printbibliography
 \end{document}
