@@ -48,3 +48,5 @@ Thumbs.db
 *blx.bib
 *.bbl
 *.bcf
+*#
+.#*

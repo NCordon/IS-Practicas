@@ -308,6 +308,9 @@ Se encarga de entre otras cosas: \cite{canonical} \cite{wcanonical}
  redistribuir los recursos hardware, \ldots
 \end{answer}
  
+\section{Cuestión 6}
+\textbf{¿Qué relación guardan las distribuciones de Linux CentOS, Fedora y RedHat Enterprise Linux? Comente las 
+similitudes y diferencias que le parezcan más significativas.}
 \section{Cuestión 7}
 \textbf{Busque indicadores de porcentaje de uso global o de cuota de mercado de SO de Servidores. No olvide poner 
 la fuente de donde saca la información y preste atención a la fecha de ésta}
@@ -381,7 +384,7 @@ mediante HW?}
 
 \section{Cuestión 9}
 \textbf{a) ¿Qué es LVM? b)¿Qué ventaja tiene para un servidor de gama baja? c)Si va a tener un servidor web, ¿le daría
-un tamaño grande o pequeño a /var?}
+un tamaño grande o pequeño a \texttt{/var}?}
 \begin{answer}
  \begin{enumerate}[label=\alph*.]
   \item \cite{lvm} LVM(Logic Volume Manager - Gestor de Volúmenes Lógicos) es un método de asignación de espacio en disco que crea
@@ -391,6 +394,17 @@ un tamaño grande o pequeño a /var?}
   a una unidad de disco. Los grupos de volúmenes lógicos se dividen en volúmenes lógicos \texttt{/home,/},\ldots. Cuando
   dichos volúmenes lógicos alcanzan su máxima capacidad, se podría dedicar espacio libre de otro volumen lógico
   adscrito al mismo grupo de volúmenes lógico y redimensionarlos.
+  \item \cite{benefitslvm} El espacio en LVM no tiene porqué ser contiguo para ser asignado, lo que es muy deseable en un servidor de gama
+  baja que supuestamente tendrá poca capacidad de almacenamiento. Además, si en el servidor se llenan alguno de los
+  volúmenes, resulta sencillo redistribuir el espacio con LVM, frente a la necesidad de reparticionar si se están
+  empleando particiones.
+  \item Puesto que \texttt{/var} contiene archivos temporales, sería necesario tener en cuenta que puede aumentar su
+  tamaño significativamente. Si el servidor es de gama baja, lo ideal es que esté configurado con LVM, para que si en
+  algún momento hace falta asignar o quitar espacio a \texttt{/var} se pudiera hacer de manera sencilla, por lo que
+  en este caso sería indiferente si se le asigna inicialmente mucho o poco espacio. Si el servidor es de gama alta, y 
+  está particionado en lugar de usar LVM(si usase LVM la respuesta es la misma que para servidores de gama baja), entonces
+  sería conveniente asignarle inicialmente mucho espacio, asumiendo que el servidor dispondrá de espacio más que suficiente,
+  para así no tener que reparticionar en ningún momento.
  \end{enumerate}
 \end{answer}
 
