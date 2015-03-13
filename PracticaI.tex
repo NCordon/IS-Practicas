@@ -427,5 +427,16 @@ un tamaño grande o pequeño a \texttt{/var}?}
  \end{enumerate}
 \end{answer}
 
+\section{Cuestión 10}
+\textbf{¿Es conveniente cifrar también el volumen que contiene el espacio para swap? ¿Por qué no es posible cifrar 
+el volumen en el que montaremos /boot?}
+\begin{answer}
+ Es conveniente cifrar el swap, ya que en el espacio de intercambio puede haber información de gran importancia para
+ programas de una máquina, como por ejemplo contraseñas. Imaginemos que una clave que está siendo usada por un programa,
+ y se halla en memoria principal. Si se necesitara liberar espacio en dicha memoria, se comenzarían a llevar páginas
+ de memoria a espacio de intercambio, con lo cual, si dicha clave estuviese entre las páginas llevadas a swap, la clave
+ sería totalmente visible a cualquiera que consultara la información almacenada en espacio de intercambio.s
+\end{answer}
+
 \printbibliography
 \end{document}
