@@ -446,9 +446,19 @@ el volumen en el que montaremos \texttt{/boot}?}
  
 \end{answer}
 
+\section{Cuestión 13}
+\textbf{¿Cómo ha hecho el disco 2 “arrancable”? ¿Qué hace el comando \texttt{grub-install}?}
+Haciendo \texttt{grub-install /dev/sdb} desde una terminal linux. Este comando instala el cargador de arranque \texttt{grub}
+en la partición \texttt{/dev/sdb}. De esta forma, cuando arrancamos desde \texttt{/dev/sdb} el ordenador puede reconocer las
+particiones y hacer que el usuario escoja desde qué partición iniciar.
+
 \section{Cuestión 14}
+\begin{answer}
 \textbf{¿Cuál es la principal diferencia que hay entre las versiones Standard y Datacenter de Windows 2012?}
 \cite{difstdat} La versión Estándar permite montar dos máquinas virtuales en el mismo host, como máximo, mientras que la
 versión Datacenter permite montar un número ilimitado de instancias de máquinas virtuales en el mismo host.
+\end{answer}
+
+
 \printbibliography
 \end{document}
