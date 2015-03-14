@@ -429,14 +429,24 @@ un tamaño grande o pequeño a \texttt{/var}?}
 
 \section{Cuestión 10}
 \textbf{¿Es conveniente cifrar también el volumen que contiene el espacio para swap? ¿Por qué no es posible cifrar 
-el volumen en el que montaremos /boot?}
+el volumen en el que montaremos \texttt{/boot}?}
 \begin{answer}
  Es conveniente cifrar el swap, ya que en el espacio de intercambio puede haber información de gran importancia para
  programas de una máquina, como por ejemplo contraseñas. Imaginemos que una clave que está siendo usada por un programa,
  y se halla en memoria principal. Si se necesitara liberar espacio en dicha memoria, se comenzarían a llevar páginas
  de memoria a espacio de intercambio, con lo cual, si dicha clave estuviese entre las páginas llevadas a swap, la clave
- sería totalmente visible a cualquiera que consultara la información almacenada en espacio de intercambio.s
+ sería totalmente visible a cualquiera que consultara la información almacenada en espacio de intercambio.
+ 
+ No es posible cifrar el volumen \texttt{\boot}. Al menos, si se cifra dicho volumen, debería existir un pequeño espacio
+ en disco duro donde se almacenen las claves y el algoritmo de desencriptación; esto es debido a que cuando el sistema
+ se inicia y hace un prompt pidiendo la contraseña para desencriptar la partición, ya debe tener lista la clave de
+ decodificación. El mismo problema surge si ciframos \texttt{\boot}: cuando se lee \texttt{\boot} se reconocen las particiones
+ y se le pregunta al usuario desde cuál quiere iniciar la máquina, pero si no podemos desencriptar dicha partición, este
+ proceso no puede hacerse.
+ 
 \end{answer}
 
+\section{Cuestión 14}
+\textbf{¿Cuál es la principal diferencia que hay entre las versiones Standard y Datacenter de Windows 2012?}
 \printbibliography
 \end{document}
