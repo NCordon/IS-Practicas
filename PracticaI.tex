@@ -357,7 +357,7 @@ mediante HW?}
     la lectura de ficheros, aunque si falla alguno de los discos, se pierden todos los datos del fichero. Para ilustrar
     este sistema, en \ref{raid0} se observa cómo se almacenan 6 bloques de un archivo en los dos discos.
     
-    \imagen{raid-0.png}{Ejemplo de RAID 0}{raid0}{1}
+    \imagen{./images/raid-0.png}{Ejemplo de RAID 0}{raid0}{1}
     
     \item \underline{RAID 1(Mirroring)}: Se almacenan dos copias para cada datos, que se envían a dos discos distintos(el que almacena
     la copia de seguridad se llama disco espejo). Este sistema permite leer de cualquiera de los dos discos que contienen
@@ -365,7 +365,7 @@ mediante HW?}
     para almacenar un dato que en RAID 0. Siendo A,B,C bloques de un fichero, se ilustra el funcionamiento de este
     tipo de RAID en \ref{raid1}
     
-    \imagen{raid-1.png}{Ejemplo de RAID 1}{raid1}{1}
+    \imagen{./images/raid-1.png}{Ejemplo de RAID 1}{raid1}{1}
     
     \item \underline{RAID 2}: no usado en la práctica, sólo constituye un modelo teórico. Divide los bits de los bloques de datos y
     los reparte entre los distintos discos, almacenándose bits de comprobación en otro/s disco/s. Para la detección de errores
@@ -387,7 +387,7 @@ mediante HW?}
     Disk1 y Disk3, se almacena un bloque de paridad en 2; al guardar E en Disk2 y F en Disk3, el bloque de paridad p3
     es guardado en Disk1.
     
-    \imagen{raid-5.png}{Ejemplo de RAID 5}{raid5}{1}
+    \imagen{./images/raid-5.png}{Ejemplo de RAID 5}{raid5}{1}
     
     \item \underline{RAID 6}: usa el mismo principio que RAID 5, pero se almacenan ahora dos bloques de paridad (se necesita por tanto
     un disco más que en RAID 5 para almacenar la misma cantidad de datos).
@@ -472,8 +472,39 @@ particiones y hacer que el usuario escoja desde qué partición iniciar.
 versión Datacenter permite montar un número ilimitado de instancias de máquinas virtuales en el mismo host.
 \end{answer}
 
-\section{
+\section{Cuestión 15}
+\textbf{Continúe usted con el proceso de definición de RAID1 para los dos discos de 50MiB que ha creado. Muestre el 
+proceso con capturas de pantalla.}
+\begin{answer}
+  \begin{itemize}
+   \item Debemos escoger el sistema de particiones para cada uno de los dos discos. Escogeremos MBR, tal y como se
+   muestra en \ref{mbr}
+   
+   \imagen{./images/win/1.png}{Sistema de particiones MBR}{mbr}{0.9}
+   
+   \item Seleccionamos una de los volúmenes y creamos el RAID1 (New Mirrorred Volume), como se muestra en \ref{imgraid}
+   
+   \imagen{./images/win/2.png}{Selección de RAID 1}{imgraid}{0.9}
+   
+   \item Creamos el RAID 1 con los dos discos de 50 MB, asignándole un formato de archivos, que en nuestro caso ha sido
+    NTFS. El proceso se muestra en
+    \ref{img3}, \ref{img4} y \ref{img5}.
+    
+    \imagen{./images/win/3.png}{Selección de los discos del RAID}{img3}{0.9}
+    
+    \imagen{./images/win/4.png}{Asignación de letra de unidad}{img4}{0.9}
+    
+    \imagen{./images/win/5.png}{Elección del sistema de ficheros}{img5}{0.9}   
+  \end{itemize}
+\end{answer}
 
-
+\section{Cuestión 16}
+\textbf{Configure la red virtual entre las máquinas Guest y Host de forma que haya comunicación de red entre ellas y 
+la máquina Guest pueda acceder a Internet empleando la conexión de la máquina Host. Explique las opciones de
+configuración posibles, y la elegida. Muestre con capturas de pantalla cómo queda la configuración de la red y cómo 
+comprueba la conectividad entre máquinas y el acceso a Internet.}
+\begin{answer}
+ 
+\end{answer}
 \printbibliography
 \end{document}
