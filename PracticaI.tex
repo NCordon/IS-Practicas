@@ -50,6 +50,8 @@
 
 % Imágenes
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
 \usepackage{wrapfig} % Allows in-line images
 
 % Referencias
@@ -76,7 +78,6 @@
 % To change level of indentation
 \newenvironment{answer}{%
 \begin{list}{}{%
-\addtolength{\hoffset}{0cm}
 }%
 \item[]}{\end{list}}
 
@@ -92,14 +93,14 @@
     \label{#4}
   \end{wrapfigure}
 }
-\newcommand{\imagen}[3]{
-  \begin{figure}[H]
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{#1}
-    \end{center}
-    \caption{#2}
+
+\newcommand{\imagen}[4]{
+  \begin{minipage}{\linewidth}
+    \centering
+    \includegraphics[width=#4\textwidth]{#1}
+    \captionof{figure}{#2}
     \label{#3}
-  \end{figure}
+  \end{minipage} 
 }
 
 %Customize enumerate tag
@@ -155,8 +156,8 @@
 \tableofcontents
 \newpage
 % Examples of inclussion of images
-%\imagent{ugr.jpg}{Logo de prueba}{ugr}{r}
-%\imagen{ugr.jpg}{Logo de prueba}{ugr2}
+%\imagent{ugr.jpg}{Logo de prueba}{ugr}
+%\imagen{ugr.jpg}{Logo de prueba}{ugr2}{size relative to the \textwidth}
 
 \section{Cuestión 1}
 \textbf{¿Qué modos y tipos de “Virtualización Hardware” existen?}
@@ -355,14 +356,17 @@ mediante HW?}
     \item \underline{RAID 0(Data Striping)}: Los datos se dividen y se envían sus partes a varios discos (al menos dos). De esta manera, puede paralelizarse
     la lectura de ficheros, aunque si falla alguno de los discos, se pierden todos los datos del fichero. Para ilustrar
     este sistema, en \ref{raid0} se observa cómo se almacenan 6 bloques de un archivo en los dos discos.
-    \imagen{raid-0.png}{Ejemplo de RAID 0}{raid0}
+    
+    \imagen{raid-0.png}{Ejemplo de RAID 0}{raid0}{1}
     
     \item \underline{RAID 1(Mirroring)}: Se almacenan dos copias para cada datos, que se envían a dos discos distintos(el que almacena
     la copia de seguridad se llama disco espejo). Este sistema permite leer de cualquiera de los dos discos que contienen
     un dato, pudiendo paralelizarse también la lectura, pero es muy costoso en tanto que se necesitan el doble de discos
     para almacenar un dato que en RAID 0. Siendo A,B,C bloques de un fichero, se ilustra el funcionamiento de este
     tipo de RAID en \ref{raid1}
-    \imagen{raid-1.png}{Ejemplo de RAID 1}{raid1}
+    
+    \imagen{raid-1.png}{Ejemplo de RAID 1}{raid1}{1}
+    
     \item \underline{RAID 2}: no usado en la práctica, sólo constituye un modelo teórico. Divide los bits de los bloques de datos y
     los reparte entre los distintos discos, almacenándose bits de comprobación en otro/s disco/s. Para la detección de errores
     se usa un código de detección llamado paridad de Hamming. El coste de su implementación es muy elevado, por eso este sistema
@@ -382,7 +386,8 @@ mediante HW?}
     se almacenan A y B en Disk1 y Disk2 resp., se guarda un bloque de paridad p1 en Disk3; al almacenar C y D en
     Disk1 y Disk3, se almacena un bloque de paridad en 2; al guardar E en Disk2 y F en Disk3, el bloque de paridad p3
     es guardado en Disk1.
-    \imagen{raid-5.png}{Ejemplo de RAID 5}{raid5}
+    
+    \imagen{raid-5.png}{Ejemplo de RAID 5}{raid5}{1}
     
     \item \underline{RAID 6}: usa el mismo principio que RAID 5, pero se almacenan ahora dos bloques de paridad (se necesita por tanto
     un disco más que en RAID 5 para almacenar la misma cantidad de datos).
@@ -451,6 +456,14 @@ el volumen en el que montaremos \texttt{/boot}?}
 Haciendo \texttt{grub-install /dev/sdb} desde una terminal linux. Este comando instala el cargador de arranque \texttt{grub}
 en la partición \texttt{/dev/sdb}. De esta forma, cuando arrancamos desde \texttt{/dev/sdb} el ordenador puede reconocer las
 particiones y hacer que el usuario escoja desde qué partición iniciar.
+
+\section{Cuestión 12}
+\textbf{Muestre cómo ha quedado el disco particionado una vez el sistema está instalado}
+\begin{answer}
+ El disco ha quedado como indica \ref{partitions}
+ 
+ \imagen{./images/lsblk.png}{Particiones en Ubuntu Server}{partitions}{1}
+\end{answer}
 
 \section{Cuestión 14}
 \begin{answer}
