@@ -451,12 +451,6 @@ el volumen en el que montaremos \texttt{/boot}?}
  
 \end{answer}
 
-\section{Cuestión 13}
-\textbf{¿Cómo ha hecho el disco 2 “arrancable”? ¿Qué hace el comando \texttt{grub-install}?}
-Haciendo \texttt{grub-install /dev/sdb} desde una terminal linux. Este comando instala el cargador de arranque \texttt{grub}
-en la partición \texttt{/dev/sdb}. De esta forma, cuando arrancamos desde \texttt{/dev/sdb} el ordenador puede reconocer las
-particiones y hacer que el usuario escoja desde qué partición iniciar.
-
 \section{Cuestión 12}
 \textbf{Muestre cómo ha quedado el disco particionado una vez el sistema está instalado}
 \begin{answer}
@@ -464,6 +458,12 @@ particiones y hacer que el usuario escoja desde qué partición iniciar.
  
  \imagen{./images/lsblk.png}{Particiones en Ubuntu Server}{partitions}{1}
 \end{answer}
+
+\section{Cuestión 13}
+\textbf{¿Cómo ha hecho el disco 2 “arrancable”? ¿Qué hace el comando \texttt{grub-install}?}
+Haciendo \texttt{grub-install /dev/sdb} desde una terminal linux. Este comando instala el cargador de arranque \texttt{grub}
+en la partición \texttt{/dev/sdb}. De esta forma, cuando arrancamos desde \texttt{/dev/sdb} el ordenador puede reconocer las
+particiones y hacer que el usuario escoja desde qué partición iniciar.
 
 \section{Cuestión 14}
 \begin{answer}
@@ -474,7 +474,7 @@ versión Datacenter permite montar un número ilimitado de instancias de máquin
 
 \section{Cuestión 15}
 \textbf{Continúe usted con el proceso de definición de RAID1 para los dos discos de 50MiB que ha creado. Muestre el 
-proceso con capturas de pantalla.}
+proceso con capturas de pantalla.} 
 \begin{answer}
   \begin{itemize}
    \item Debemos escoger el sistema de particiones para cada uno de los dos discos. Escogeremos MBR, tal y como se
