@@ -249,10 +249,10 @@ permite correr bajo velocidades saproximadas al sistema host.
 \textbf{Enumere las cinco innovaciones en Windows 2012 R2 respecto a 2008R2 que considere más importantes.}
 \begin{answer}
 \begin{enumerate}
- \item \cite{smbi} Windows Server 2012 permite efectuar una instalación Server Core(instalación minimal) incluyendo interfaz gráfica,
+ \item Windows Server 2012 permite efectuar una instalación Server Core(instalación minimal) incluyendo interfaz gráfica,
  mientras que Windows Server 2008 sólo permitía efectuar la instalación Server Core con línea de comandos.
  
- \item Se ha mejorado el Server Message Block (SMB), que tal y como lo define \cite{smb} es un 
+ \item \cite{smbi} Se ha mejorado el Server Message Block (SMB), que tal y como lo define \cite{smb} es un 
  \textit{protocolo de compartición de archivos, impresoras, puertos seriales y abstracción de las comunicaciones entre 
  cliente y servidor}, que en la versión 3.0 presente en Windows Server 2012 incorpora mejoras significativas en cuanto a 
  rendimiento, seguridad, y añade herramientas administrativas respecto a versiones anteriores.
@@ -261,7 +261,7 @@ permite correr bajo velocidades saproximadas al sistema host.
  ciertos casos, si lo desea el administrador, también puede establecerse de manera manual) para detectar y etiquetar
  datos considerados sensibles (números de identificación, números de cuentas bancarias\ldots); restringir el acceso a
  dichos datos a ciertos grupos de usuarios; auditar el acceso a ficheros; y aplicar RMS (Rights Management Services), que permite
- encriptar ficheros y restringir acceso a los mismos, de manera automática a ciertos ficheros basándose en la información contenida en ellos.
+ encriptar ficheros y restringir acceso a los mismos, de manera automática, basándose en la información contenida en ellos.
  
  \item Mejora en el sistema de virtualización Hyper-V (competencia de VMware en la virtualización en servidores),
  añadiendo la Hyper-V Replica. Los trabajos que se virtualizan con Hyper-V pueden replicarse, esto es, puede almacenarse
@@ -507,7 +507,7 @@ comprueba la conectividad entre máquinas y el acceso a Internet.}
 La referencia usada para esta pregutna ha sido: \cite{networking}
 
 En esta pregunta tenemos dos opciones. O levantamos una conexión Ethernet nueva desde las opciones del VirtualBox
-en la máquina guest, de tipo Host-only (el interface en la máquina host se llama por defecto vboxnet0 , y configuramos
+en la máquina guest, de tipo Host-only (el interface en la máquina host se llama por defecto vboxnet0) , y configuramos
 las IPs de la máquina guest y host para que se hallen en la misma subred (la correspondiente al interfaz vboxnet0).
 
 O otra alternativa es configurar una conexión Bridge Network entre la máquina host y la guest (esto es el equivalente a que
