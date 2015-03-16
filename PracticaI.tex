@@ -168,10 +168,7 @@
   \item \textbf{Virtualización completa (\textit{full virtualization})}: permite simular el hardware necesario
   para que un SO diseñado con idéntico repertorio de instrucciones a la CPU host pueda ejecutarse en un entorno
   aislado. Ejemplos de este tipo de virtualización son VirtualBox o VMware Server.
-  \item \textbf{Virtualización con apoyo hardware (\textit{hardware-assisted virtualization})}: en este tipo
-  de virtualización, se provee de soporte arquitectónico que permite correr varios sistemas operativos 
-  huésped de manera aislada en la misma máquina. Ejemplos de este tipo de virtualización pueden encontrarse
-  en Linux KVM, VMware Fusion, \ldots
+
   \item \textbf{Virtualización parcial (\textit{partial virtualization})}: se simulan muchas de las características
   del sistema hardware subyacente, incluyendo los espacios de direcciones. Cada máquina virtual dispone de un
   espacio de direcciones distinto. Este método no permite virtualizar un SO al completo, pero sí ejecutar
@@ -180,16 +177,11 @@
   tipos de virtuaizaciones y permite compartir recursos entre múltiples usuarios. Adolece de un importante problema:
   si no se asignan los recursos suficientes en la virtualización, al ejecutar una aplicación que intente
   usar más recursos de los destinados a la virtualización, la aplicación fallará.
-  \item \textbf{Virtualización a nivel de SO (\textit{OS level virtualization})}: en este tipo de virtualización,
-  varios servidores físicos pueden ser virtualizados a nivel de SO, en la capa del kernel, de manera aislada. 
-  Se crean entornos virtuales en un SO corriendo en un servidor físico desde el que se asignan recursos hardware y software.\\
-  Los sistemas operativos huésped comparten la misma instancia de SO host, incluido el kernel, aunque cada máquina lo ve 
-  como un sistema independiente. Ejemplos de este tipo de virtualización son Solaris Containers o Linux-VServer.
+
   \item \textbf{Paravirtualización (\textit{paravirtualization})}: la máquina virtual no recrea un hardware
   específico para la máquina, sino que se ofrece una API a través de la cual el SO virtualizado (para lo que
   habría que modificar su código fuente), puede hacer llamadas al hipervisor (monitor de máquinas virtuales
   que se encuentra en el SO host) para comunicarse directamente con el hardware del SO host.\\
-  Requiere apoyo hardware para efectuar la asignación de los espacios de direcciones.
   
  \end{itemize}
 \end{answer}
@@ -203,7 +195,7 @@ similares.}
  Se han escogido como proveedores para realizar el ejercicio:
  \begin{itemize}
   \item Softlayer Inc.  \url{https://www.softlayer.com}\\
-   Oferta un servidor VPS no administrado, localizado en Dalas (EEUU), con 8cores a 2GHz, 8 GB de RAM, 2 discos duros(uno de 
+   Oferta un servidor VPS no administrado, localizado en Dalas (EEUU), con 8 cores a 2GHz, 8 GB de RAM, 2 discos duros (uno de 
    100 GB y otro de 400 GB), Ubuntu 14.04 LTS como SO, 5000 GB de tráfico, con una sola IP, por 249.60 \$/mes.
   
    También ofrece un servidor dedicado no administrado, localizado en Dalas (EEUU), con procesador Xeon 2650(8 cores x 2GHz), 20 MB caché,
@@ -456,7 +448,7 @@ el volumen en el que montaremos \texttt{/boot}?}
 \begin{answer}
  ext2 no incluye journaling, mientras que ext3 sí. Esto es, existe una región del sistema de archivos que almacena
  información sobre los cambios que se efectúan en el mismo, siendo ésta información útil para la recuperación de errores.
- \cite{ext}
+ \cite{ext}	
 \end{answer}
 
 \section{Cuestión 12}
@@ -511,6 +503,24 @@ proceso con capturas de pantalla.}
 la máquina Guest pueda acceder a Internet empleando la conexión de la máquina Host. Explique las opciones de
 configuración posibles, y la elegida. Muestre con capturas de pantalla cómo queda la configuración de la red y cómo 
 comprueba la conectividad entre máquinas y el acceso a Internet.}
+
+La referencia usada para esta pregutna ha sido: \cite{networking}
+
+En esta pregunta tenemos dos opciones. O levantamos una conexión Ethernet nueva desde las opciones del VirtualBox
+en la máquina guest, de tipo Host-only (el interface en la máquina host se llama por defecto vboxnet0 , y configuramos
+las IPs de la máquina guest y host para que se hallen en la misma subred (la correspondiente al interfaz vboxnet0).
+
+O otra alternativa es configurar una conexión Bridge Network entre la máquina host y la guest (esto es el equivalente a que
+ambas máquinas estuviesen conectadas por un cable Ethernet físico), y una de tipo Internal Network para que las máquinas
+virtuales pudiesen verse entre sí (haría falta configurar esta útlima en todas los guests).
+
+Se ha escogido la primera alternativa. En la imagen \ref{net} se observa cómo se hace un \texttt{ifconfig} en la máquina
+host, para averiguar la IP de \texttt{vboxnet0}, se levanta una conexión \texttt{eth1} en la máquina guest, con IP en
+la subred de \texttt{vboxnet0}, y ambas máquinas se hacen ping entre ellas. Además, se comprueba mediante \texttt{ping www.google.es}
+en el guest que se dispone de conexión a internet.
+
+\imagen{./images/net.jpg}{Configuración de network entre host y guest}{net}{1.1}
+
 \begin{answer}
  
 \end{answer}
