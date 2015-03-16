@@ -451,6 +451,14 @@ el volumen en el que montaremos \texttt{/boot}?}
  
 \end{answer}
 
+\section{Cuestión 11}
+\textbf{¿Cuál es la diferencia más significativa entre ext3 y ext2?}
+\begin{answer}
+ ext2 no incluye journaling, mientras que ext3 sí. Esto es, existe una región del sistema de archivos que almacena
+ información sobre los cambios que se efectúan en el mismo, siendo ésta información útil para la recuperación de errores.
+ \cite{ext}
+\end{answer}
+
 \section{Cuestión 12}
 \textbf{Muestre cómo ha quedado el disco particionado una vez el sistema está instalado}
 \begin{answer}
