@@ -364,11 +364,11 @@ mediante HW?}
     se usa un código de detección llamado paridad de Hamming. El coste de su implementación es muy elevado, por eso este sistema
     no se usa.
     
-    \item \underline{RAID 3}: hay un disco que se usa para almacenar datos de paridades. Los bloques se dividen en tantos trozos
+    \item \underline{RAID 3}: hay un disco que se usa para almacenar datos de paridades. Cada bloque en tantos trozos
     como discos(sin contar el de paridad, que almacenará un valor para poder comprobar cuando se recupere el bloque que 
     no se ha perdido información porque alguno de los discos haya fallado) y se almacena un trozo en cada uno de ellos.
     
-    \item \underline{RAID 4}: cuando se almacena un fichero, los bloques se dividen entre los distintos discos (en este caso los bloques
+    \item \underline{RAID 4}: cuando se almacena un fichero, los bloques se reparten entre los distintos discos (en este caso los bloques
     no se trocean), y se usa un disco fijo para almacenar la paridad(un valor comprobatorio de la integridad de todos los
     bloques que conforman un determinado archivo).
     
@@ -385,14 +385,14 @@ mediante HW?}
     un disco más que en RAID 5 para almacenar la misma cantidad de datos).
     
     \item \underline{RAID 1+0}: los bloques de un archivo se reparten entre las divisiones RAID 1(conjuntos de dos discos), donde
-    en cada división cada bloque es almacenado en dos discos distintos.
+    en cada división cada bloque es replicado en dos discos distintos (nivel de RAID 0).
   \end{itemize}
   
   \item \cite{swhwraid} El software RAID conlleva un procesamiento extra por parte de la placa madre del servidor (CPU y buses), que
   en caso de usar RAIDs con paridad puede ocasionar un sobrecoste importante sobre los recursos del sistema,
   mientras que el hardware RAID efectúa el procesamiento de los discos a nivel de dispositivos de almacenamiento, sin
   el coste para buses y CPU de la máquina que se tiene en el software RAID. Además, el RAID vía software se configura
-  por el Sistema Operativo, lo que imposibilita que las particiones presentes en el RAID Puedan ser compartidas entre
+  por el Sistema Operativo, lo que imposibilita que las particiones presentes en el RAID puedan ser compartidas entre
   sistemas operativos.
 
 \end{enumerate}
@@ -429,7 +429,7 @@ un tamaño grande o pequeño a \texttt{/var}?}
 el volumen en el que montaremos \texttt{/boot}?}
 \begin{answer}
  Es conveniente cifrar el swap, ya que en el espacio de intercambio puede haber información de gran importancia para
- programas de una máquina, como por ejemplo contraseñas. Imaginemos que una clave que está siendo usada por un programa,
+ programas de una máquina, como por ejemplo contraseñas. Imaginemos que una clave está siendo usada por un programa,
  y se halla en memoria principal. Si se necesitara liberar espacio en dicha memoria, se comenzarían a llevar páginas
  de memoria a espacio de intercambio, con lo cual, si dicha clave estuviese entre las páginas llevadas a swap, la clave
  sería totalmente visible a cualquiera que consultara la información almacenada en espacio de intercambio.
@@ -466,8 +466,8 @@ en la partición \texttt{/dev/sdb}. De esta forma, cuando arrancamos desde \text
 particiones y hacer que el usuario escoja desde qué partición iniciar.
 
 \section{Cuestión 14}
-\begin{answer}
 \textbf{¿Cuál es la principal diferencia que hay entre las versiones Standard y Datacenter de Windows 2012?}
+\begin{answer}
 \cite{difstdat} La versión Estándar permite montar dos máquinas virtuales en el mismo host, como máximo, mientras que la
 versión Datacenter permite montar un número ilimitado de instancias de máquinas virtuales en el mismo host.
 \end{answer}
@@ -510,16 +510,42 @@ En esta pregunta tenemos dos opciones. O levantamos una conexión Ethernet nueva
 en la máquina guest, de tipo Host-only (el interface en la máquina host se llama por defecto vboxnet0) , y configuramos
 las IPs de la máquina guest y host para que se hallen en la misma subred (la correspondiente al interfaz vboxnet0).
 
-O otra alternativa es configurar una conexión Bridge Network entre la máquina host y la guest (esto es el equivalente a que
+Otra alternativa es configurar una conexión Bridge Network entre la máquina host y la guest (esto es el equivalente a que
 ambas máquinas estuviesen conectadas por un cable Ethernet físico), y una de tipo Internal Network para que las máquinas
-virtuales pudiesen verse entre sí (haría falta configurar esta útlima en todas los guests).
+virtuales pudiesen verse entre sí, de manera que los paquetes no pasasen por el host, ya que se supone que con una conexión
+de tipo Bridge se tienen todas las funcionalidades que con una de tipo Internal, pero los paquetes pasan de una máquina
+virtual a otra a través del host, mientras que de la otra forma pasan directamente.	
+  
+Se ha escogido la primera alternativa en ambas máquinas.
 
-Se ha escogido la primera alternativa. En la imagen \ref{net} se observa cómo se hace un \texttt{ifconfig} en la máquina
-host, para averiguar la IP de \texttt{vboxnet0}, se levanta una conexión \texttt{eth1} en la máquina guest, con IP en
-la subred de \texttt{vboxnet0}, y ambas máquinas se hacen ping entre ellas. Además, se comprueba mediante \texttt{ping www.google.es}
-en el guest que se dispone de conexión a internet.
+\subsection{Ubuntu server}
+  En la imagen \ref{net} se observa cómo se hace un \texttt{ifconfig} en la máquina
+  host, para averiguar la IP de \texttt{vboxnet0}, se levanta una conexión \texttt{eth1} en la máquina guest, con IP en
+  la subred de \texttt{vboxnet0}, y ambas máquinas se hacen ping entre ellas. Además, se comprueba mediante \texttt{ping www.google.es}
+  en el guest que se dispone de conexión a internet.
 
-\imagen{./images/net.jpg}{Configuración de network entre host y guest}{net}{1.1}
+  \imagen{./images/net.jpg}{Configuración de network entre host y guest}{net}{1}
+  
+  La configuración final de la red se muestra en \ref{redubuntu}
+  
+  \imagen{./images/redubuntu.png}{Interfaces de red en Ubuntu Server}{redubuntu}{1}
+
+\subsection{Windows Server}
+  Se cambia la ip de la interfaz Ethernet 2 en Windows Server, ya que venía configurada por defecto.
+  De esta forma podemos colocarla en la misma red de área local que Ubuntu Server y que el host. Se muestra en \ref{changenet}
+  
+  \imagen{./images/changenet.png}{Cambio IP interfaz}{changenet}{1}
+  
+  Se deben desactivar las reglas para dejar entrar y pasar los \texttt{ping}. Tanto en \texttt{Outbound rules} como en 
+  \texttt{Inbound rules} en el Firewall de Windows. Tal como se muestra en \ref{enableping}
+  
+  \imagen{./images/enableping.png}{Habilitando ping en el firewall de Windows}{enableping}{1}
+  
+  El resultado es \ref{config}
+  
+  \imagen{./images/config.jpg}{Configuración de network entre host y guest}{config}{1}
+  
+  
 
 \begin{answer}
  
