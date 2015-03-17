@@ -1,0 +1,283 @@
+\documentclass[a4paper,11pt]{article}
+% Símbolo del euro
+\usepackage[gen]{eurosym}
+% Codificación
+\usepackage[utf8]{inputenc}
+% Idioma
+\usepackage[spanish]{babel} % English language/hyphenation
+\selectlanguage{spanish}
+% Hay que pelearse con babel-spanish para el alineamiento del punto decimal
+\decimalpoint
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{\esperiod}{#1}}
+\makeatletter
+\addto\shorthandsspanish{\let\esperiod\es@period@code}
+\makeatother
+% To work with bibtex
+%\usepackage{natbib}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\bibliography{references}
+\usepackage{longtable}
+\usepackage{tabu}
+\usepackage{supertabular}
+
+\usepackage{multicol}
+\newsavebox\ltmcbox
+
+% Para algoritmos
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsthm}
+% Para matrices
+\usepackage{amsmath}
+
+% Símbolos matemáticos
+\usepackage{amssymb}
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+% Hipervínculos
+\usepackage{url}
+
+\usepackage[section]{placeins} % Para gráficas en su sección.
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Required for accented characters
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\setlength{\parindent}{0pt}
+\parskip=8pt
+\linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
+
+
+% Imágenes
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{wrapfig} % Allows in-line images
+
+% Referencias
+\usepackage{fncylab}
+\labelformat{figure}{\textit{\figurename\space #1}}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
+
+%Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\newtheorem*{mydef}{Definición}
+\newtheorem{mydefn}{Definición}
+\newtheorem{theorem}{Teorema}
+\everymath{\displaystyle} % Displaystyle por defecto
+
+
+
+% To change level of indentation
+\newenvironment{answer}{%
+\begin{list}{}{%
+}%
+\item[]}{\end{list}}
+
+
+\makeatletter
+\renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
+\newcommand{\imagent}[4]{
+  \begin{wrapfigure}{#4}{0.7\textwidth}
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{#1}
+    \end{center}
+    \caption{#3}
+    \label{#4}
+  \end{wrapfigure}
+}
+
+\newcommand{\imagen}[4]{
+  \begin{minipage}{\linewidth}
+    \centering
+    \includegraphics[width=#4\textwidth]{#1}
+    \captionof{figure}{#2}
+    \label{#3}
+  \end{minipage} 
+}
+
+%Customize enumerate tag
+\usepackage{enumitem}
+%Sections don't get numbered
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+% Modified by: NCordon (https://github.com/NCordon)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% want your title page.
+% OR
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+% move this file to the same directory as the LaTeX file you wish to add it to. 
+% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+% title page.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+\textsc{\LARGE Universidad de Granada}\\[1.5cm]
+\textsc{\Large Ingeniería de Servidores}\\[0.5cm] 
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\bigskip
+\HRule \\[0.4cm]
+{ \huge \bfseries Práctica II}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{center} \large
+\emph{Ignacio Cordón Castillo}\\
+\end{center}
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{center}
+\includegraphics[width=9cm]{../images/ugr.jpg}
+\end{center}
+%----------------------------------------------------------------------------------------
+
+\vspace{\fill}% Fill the rest of the page with whitespace
+\large\today
+\end{titlepage}  
+
+\newpage
+\tableofcontents
+\newpage
+% Examples of inclussion of images
+%\imagent{ugr.jpg}{Logo de prueba}{ugr}
+%\imagen{ugr.jpg}{Logo de prueba}{ugr2}{size relative to the \textwidth}
+
+\section{Cuestión 1}
+\textbf{Proporcione ejemplos de llamada a a yum para buscar, instalar y eliminar paquetes (Pista: man yum)}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 2}
+\textbf{¿Qué ha de hacer para que yum pueda tener acceso a Internet a través de un proxy?(Pistas: archivo de configuración
+en /etc, proxy: stargate.ugr.es:3128). ¿Cómo añadimos un nuevo repositorio?}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 3}
+\textbf{Proporcione ejemplos de comandos para buscar un paquete en un repositorio y el correspondiente para instalarlo. 
+(Pista: man apt-get ; man apt-cache)}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 4}
+\textbf{Indiqué como debe modificar la configuración de apt para acceder a los repositorios a través del proxy. ¿Cómo 
+añadimos un nuevo repositorio?}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 5}
+\textbf{¿Qué diferencia hay entre telnet y ssh?}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 6}
+\textbf{Modifique la configuración de SSH para que impida el acceso remoto del usuario root y cambie el puerto por defecto. 
+Indique las líneas modificadas en el fichero de configuración y ponga de manifiesto el cambio mediante capturas de 
+pantallas en las que se aprecie el  comportamiento antes y después de los cambios. Tenga en cuenta que debe reiniciar 
+el servicio para que tome los cambios}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 7}
+\textbf{Configure una instancia de Linux de forma que pueda acceder remotamente (desde otra instancia o desde su anfitrión) 
+sin introducir contraseña (Pistas: ssh-keygen, ssh-copy-id). Documente el proceso que ha seguido indicando y explicando los
+comandos utilizados así como posibles cambios en la configuración del servicio. Muestre con capturas de pantalla que puede 
+conectar al servidor ssh remoto sin introducir contraseña.}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 8}
+\textbf{En muchas ocasiones es necesario reiniciar un servicio para que tome los cambios en su configuración. Indique los 
+comandos que puede emplear en Ubuntu y CentOS para hacerlo.}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 9}
+\textbf{Ponga de manifiesto el funcionamiento de PHP en Apache creando un fichero php que presente su nombre y apellidos 
+y accediéndolo con un navegador web. Presente la captura de pantalla del resultado. Ponga de manifiesto el funcionamiento
+de MySQL accediendo a la BBDDs por defecto (mysql) y consultando los usuarios definidos en el sistema (select * from user). 
+Documente con capturas de pantalla el acceso y resultado de la consulta.}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 10}
+\textbf{Para poner de manifiesto que el servidor está funcionando, acceda con un navegador web a su propio equipo 
+(localhost). Cree una página HTML básica con su nombre y apellidos y publíquela en su servidor IIS. Muestre, con una 
+captura de pantalla, como accede a dicha página con el navegador web.}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 11}
+\textbf{Escriba un breve contenido en un fichero de texto plano, cópielo y modifíquelo ligeramente en un segundo archivo, 
+por ejemplo, añadiendo un par de líneas. Calcule las diferencias entre el fichero original y el modificado. Indique los
+comandos necesarios para aplicar el parche así generado sobre el primer archivo y obtener el segundo. Documente el proceso 
+con capturas de pantalla de cada paso.}
+\begin{answer}
+  
+\end{answer}
+
+\section{Cuestión 12}
+\textbf{Realice la instalación de esta aplicación y pruebe a modificar algún parámetro de algún servicio. Muestre las 
+capturas de el proceso de modificación y ponga de manifiesto el resultado.}
+\begin{answer}
+  
+\end{answer}
+
+\printbibliography
+\end{document}

@@ -173,7 +173,7 @@
 %----------------------------------------------------------------------------------------
 
 \begin{center}
-\includegraphics[width=9cm]{ugr.jpg}
+\includegraphics[width=9cm]{../images/ugr.jpg}
 \end{center}
 %----------------------------------------------------------------------------------------
 
@@ -378,7 +378,7 @@ mediante HW?}
     la lectura de ficheros, aunque si falla alguno de los discos, se pierden todos los datos del fichero. Para ilustrar
     este sistema, en \ref{raid0} se observa cómo se almacenan 6 bloques de un archivo en los dos discos.
     
-    \imagen{./images/raid-0.png}{Ejemplo de RAID 0}{raid0}{1}
+    \imagen{../images/raid-0.png}{Ejemplo de RAID 0}{raid0}{1}
     
     \item \underline{RAID 1(Mirroring)}: Se almacenan dos copias para cada datos, que se envían a dos discos distintos(el que almacena
     la copia de seguridad se llama disco espejo). Este sistema permite leer de cualquiera de los dos discos que contienen
@@ -386,7 +386,7 @@ mediante HW?}
     para almacenar un dato que en RAID 0. Siendo A,B,C bloques de un fichero, se ilustra el funcionamiento de este
     tipo de RAID en \ref{raid1}
     
-    \imagen{./images/raid-1.png}{Ejemplo de RAID 1}{raid1}{1}
+    \imagen{../images/raid-1.png}{Ejemplo de RAID 1}{raid1}{1}
     
     \item \underline{RAID 2}: no usado en la práctica, sólo constituye un modelo teórico. Divide los bits de los bloques de datos y
     los reparte entre los distintos discos, almacenándose bits de comprobación en otro/s disco/s. Para la detección de errores
@@ -408,7 +408,7 @@ mediante HW?}
     Disk1 y Disk3, se almacena un bloque de paridad en 2; al guardar E en Disk2 y F en Disk3, el bloque de paridad p3
     es guardado en Disk1.
     
-    \imagen{./images/raid-5.png}{Ejemplo de RAID 5}{raid5}{1}
+    \imagen{../images/raid-5.png}{Ejemplo de RAID 5}{raid5}{1}
     
     \item \underline{RAID 6}: usa el mismo principio que RAID 5, pero se almacenan ahora dos bloques de paridad (se necesita por tanto
     un disco más que en RAID 5 para almacenar la misma cantidad de datos).
@@ -485,7 +485,7 @@ el volumen en el que montaremos \texttt{/boot}?}
 \begin{answer}
  El disco ha quedado como indica \ref{partitions}
  
- \imagen{./images/lsblk.png}{Particiones en Ubuntu Server}{partitions}{1}
+ \imagen{../images/lsblk.png}{Particiones en Ubuntu Server}{partitions}{1}
 \end{answer}
 
 \section{Cuestión 13}
@@ -509,21 +509,21 @@ proceso con capturas de pantalla.}
    \item Debemos escoger el sistema de particiones para cada uno de los dos discos. Escogeremos MBR, tal y como se
    muestra en \ref{mbr}
    
-   \imagen{./images/win/1.png}{Sistema de particiones MBR}{mbr}{0.9}
+   \imagen{../images/win/1.png}{Sistema de particiones MBR}{mbr}{0.9}
    
    \item Seleccionamos una de los volúmenes y creamos el RAID1 (New Mirrorred Volume), como se muestra en \ref{imgraid}
    
-   \imagen{./images/win/2.png}{Selección de RAID 1}{imgraid}{0.9}
+   \imagen{../images/win/2.png}{Selección de RAID 1}{imgraid}{0.9}
    
    \item Creamos el RAID 1 con los dos discos de 50 MB, asignándole un formato de archivos, que en nuestro caso ha sido
     NTFS. El proceso se muestra en
     \ref{img3}, \ref{img4} y \ref{img5}.
     
-    \imagen{./images/win/3.png}{Selección de los discos del RAID}{img3}{0.9}
+    \imagen{../images/win/3.png}{Selección de los discos del RAID}{img3}{0.9}
     
-    \imagen{./images/win/4.png}{Asignación de letra de unidad}{img4}{0.9}
+    \imagen{../images/win/4.png}{Asignación de letra de unidad}{img4}{0.9}
     
-    \imagen{./images/win/5.png}{Elección del sistema de ficheros}{img5}{0.9}   
+    \imagen{../images/win/5.png}{Elección del sistema de ficheros}{img5}{0.9}   
   \end{itemize}
 \end{answer}
 
@@ -553,26 +553,26 @@ Se ha escogido la primera alternativa en ambas máquinas.
   la subred de \texttt{vboxnet0}, y ambas máquinas se hacen ping entre ellas. Además, se comprueba mediante \texttt{ping www.google.es}
   en el guest que se dispone de conexión a internet.
 
-  \imagen{./images/net.jpg}{Configuración de network entre host y guest}{net}{1}
+  \imagen{../images/net.jpg}{Configuración de network entre host y guest}{net}{1}
   
   La configuración final de la red se muestra en \ref{redubuntu}
   
-  \imagen{./images/redubuntu.png}{Interfaces de red en Ubuntu Server}{redubuntu}{1}
+  \imagen{../images/redubuntu.png}{Interfaces de red en Ubuntu Server}{redubuntu}{1}
 
 \subsection{Windows Server}
   Se cambia la ip de la interfaz Ethernet 2 en Windows Server, ya que venía configurada por defecto.
   De esta forma podemos colocarla en la misma red de área local que Ubuntu Server y que el host. Se muestra en \ref{changenet}
   
-  \imagen{./images/changenet.png}{Cambio IP interfaz}{changenet}{1}
+  \imagen{../images/changenet.png}{Cambio IP interfaz}{changenet}{1}
   
   Se deben desactivar las reglas para dejar entrar y pasar los \texttt{ping}. Tanto en \texttt{Outbound rules} como en 
   \texttt{Inbound rules} en el Firewall de Windows. Tal como se muestra en \ref{enableping}
   
-  \imagen{./images/enableping.png}{Habilitando ping en el firewall de Windows}{enableping}{1}
+  \imagen{../images/enableping.png}{Habilitando ping en el firewall de Windows}{enableping}{1}
   
   El resultado es \ref{config}
   
-  \imagen{./images/config.jpg}{Configuración de network entre host y guest}{config}{1}
+  \imagen{../images/config.jpg}{Configuración de network entre host y guest}{config}{1}
   
   
 
