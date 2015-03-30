@@ -320,6 +320,8 @@ el servicio para que tome los cambios}
   y cómo no podemos ya logearnos como root, pero sí como otro usuario.
   
   \imagen{../images/2c6-2.jpeg}{SSH con root deshabilitado a través de puerto 443}{c6-2}{1}
+
+  La referencia empleada en esta pregunta ha sido: \cite{manssh}
 \end{answer}
 
 \section{Cuestión 7}
@@ -328,7 +330,34 @@ sin introducir contraseña (Pistas: ssh-keygen, ssh-copy-id). Documente el proce
 comandos utilizados así como posibles cambios en la configuración del servicio. Muestre con capturas de pantalla que puede 
 conectar al servidor ssh remoto sin introducir contraseña.}
 \begin{answer}
+  Es necesario crear un par de claves privada/pública:
+  \begin{lstlisting}[style=BashInputStyle]
+  ssh-keygen -t rsa
+  \end{lstlisting}
   
+  Pide archivo donde guardarla. En nuestro caso se ha escogido:\\
+  \begin{center} \texttt{~/.ssh/is\_practicas\_rsa} \end{center}
+  Y también pregunta por un passphrase para desbloquear la clave cada vez que se
+  desee utilizar. Ahora es necesario transferir la clave pública a la máquina que hará de servidor SSH.
+  Para ello se usa \texttt{ssh-copy-id}:
+  \begin{lstlisting}[style=BashInputStyle]
+  ssh-copy-id -i ~/.ssh/is_practicas_rsa.pub \
+  nuwanda@192.168.56.2
+  \end{lstlisting}
+  
+  Tras lo cual ya podemos conectarnos al servidor de manera remota sin necesidad
+  de introducir la contraseña, tal y como se muestra en \ref{c7-1}. Además con objeto de
+  no tener que introducir el passphrase cada vez que se use la clave privada
+  en la máquina anfitrión, se añade la clave a \texttt{ssh-agent}:
+  \begin{lstlisting}[style=BashInputStyle]
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/is_practicas_rsa
+  \end{lstlisting}
+  
+  \imagen{../images/2c7-1.jpeg}{SSH con publickey}{c7-1}{1}
+  
+  La referencia empleada para confeccionar esta pregunta ha sido: \cite{sshcopy} y 
+  \cite{ssheval}
 \end{answer}
 
 \section{Cuestión 8}
