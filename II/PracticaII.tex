@@ -25,8 +25,8 @@
 \newsavebox\ltmcbox
 
 % Para algoritmos
-\usepackage{algorithm}
-\usepackage{algorithmic}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
 \usepackage{amsthm}
 % Para matrices
 \usepackage{amsmath}
@@ -117,12 +117,6 @@
     \label{#3}
   \end{minipage} 
 }
-
-\newcommand{\bash}[1]{\begin{answer}
-  \begin{lstlisting}[style=BashInputStyle]
-  #!/bin/bash
-  echo "Hello, world!"
-  \end{lstlisting}}
 
 %Customize enumerate tag
 \usepackage{enumitem}
@@ -268,7 +262,21 @@ añadimos un nuevo repositorio?}
 \section{Cuestión 5}
 \textbf{¿Qué diferencia hay entre telnet y ssh?}
 \begin{answer}
+  Se trata de protocolos que sirven al mismo uso: la conexión a servidores remotos.
+  La principal diferencia entre ambos es que SSH es más seguro que telnet. SSH transmite
+  los datos encriptados usando una clave pública para autenticar a la fuente de transmisión, 
+  mientras que en telnet se transmiten los datos en texto plano y no hay autenticación.
   
+  Ahora bien, puesto que los datos necesitan encriptarse, en SSH, los paquetes contienen
+  información sobre la encriptación, con lo que la cantidad de datos que se transmiten
+  en un paquete en SSH es menor que en telnet, siendo ésta otra diferencia.
+  
+  Telnet emplea el puerto 23 para efectuar las transmisiones y se sigue empleando
+  en algunas redes privadas, mientras que SSH usa el puerto 22 y ha desplazado
+  a telnet en su uso en redes tanto públicas como privadas, debido a los problemas
+  de seguridad que presenta éste.
+  
+  Se ha empleado como referencia: \cite{sshtelnet}, \cite{linuxssh}.
 \end{answer}
 
 \section{Cuestión 6}
