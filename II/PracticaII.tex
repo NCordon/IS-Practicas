@@ -81,7 +81,6 @@
 \lstdefinestyle{BashInputStyle}{
   language=bash,
   basicstyle=\small\ttfamily,
-  numbers=left,
   numberstyle=\tiny,
   numbersep=3pt,
   columns=fullflexible,
@@ -285,7 +284,42 @@ Indique las líneas modificadas en el fichero de configuración y ponga de manif
 pantallas en las que se aprecie el  comportamiento antes y después de los cambios. Tenga en cuenta que debe reiniciar 
 el servicio para que tome los cambios}
 \begin{answer}
+  Es necesario tener instalado \texttt{openssh-server} en Ubuntu Server virtualizado
+  y \texttt{openssh-client} en la máquina anfitrión.
+
+  Con la conexión host-only configurada en Ubuntu server en la anterior práctica,
+  volvemos a levantar un interfaz en Ubuntu Server que esté en la misma subred que el adaptador
+  de dicha conexión en la máquina anfitrión, \texttt{vboxnet0}, en nuestro caso
+  con ip 192.168.56.1 en la máquina host.
+  \begin{lstlisting}[style=BashInputStyle]
+  sudo ifconfig 192.168.56.2
+  \end{lstlisting}
   
+  En la \ref{c6-1} se aprecia como en \texttt{/etc/ssh/sshd\_config}
+  está habilitada la opción \texttt{PermitRootLogin yes} y efectivamente, desde
+  el host podemos hacer SSH a dicha máquina, usando el puerto 22 y la cuenta root.
+  
+  \imagen{../images/2c6-1.jpeg}{SSH con root a través de puerto 22}{c6-1}{1}
+  
+  Para deshabilitar el login como root y cambiar el puerto, por ejemplo, al de
+  HTTPS (443), es necesario modificar el archivo \texttt{/etc/ssh/sshd\_config},
+  concretamente, hay que establecer:
+  
+  \begin{lstlisting}[style=BashInputStyle]
+  Port 443
+  PermitRootLogin no
+  \end{lstlisting}
+  
+  y se recarga el archivo de configuración desde la máquina virtual:
+  
+  \begin{lstlisting}[style=BashInputStyle]
+  service ssh reload
+  \end{lstlisting}
+  
+  En la \ref{c6-1} se aprecia como se rechaza cualquier conexión SSH al puerto 22,
+  y cómo no podemos ya logearnos como root, pero sí como otro usuario.
+  
+  \imagen{../images/2c6-2.jpeg}{SSH con root deshabilitado a través de puerto 443}{c6-2}{1}
 \end{answer}
 
 \section{Cuestión 7}
