@@ -364,7 +364,19 @@ conectar al servidor ssh remoto sin introducir contraseña.}
 \textbf{En muchas ocasiones es necesario reiniciar un servicio para que tome los cambios en su configuración. Indique los 
 comandos que puede emplear en Ubuntu y CentOS para hacerlo.}
 \begin{answer}
+  Es necesario ejecutar estos comandos como \texttt{root} o con \texttt{sudo}.
+  En Ubuntu y CentOS se emplean los mismos comandos:
+  \begin{lstlisting}[style=BashInputStyle]
+  sudo service [nombre] restart
+  sudo service [nombre] reload
+  \end{lstlisting}
+
+  Mientras que el primer comando hace un \texttt{stat} and \texttt{stop} del servicio,
+  de manera que quien esté empleándolo perderá la conexión, el segundo comando sólo
+  hace que el servicio vuelva a cargar su archivo de configuración, empleándolo de
+  ahí en adelante.
   
+  \cite{diffre}
 \end{answer}
 
 \section{Cuestión 9}
