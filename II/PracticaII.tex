@@ -73,6 +73,21 @@
 \newtheorem{theorem}{Teorema}
 \everymath{\displaystyle} % Displaystyle por defecto
 
+% To include code
+\usepackage{xcolor}
+\usepackage{listings}
+
+% code in bash style
+\lstdefinestyle{BashInputStyle}{
+  language=bash,
+  basicstyle=\small\ttfamily,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=3pt,
+  columns=fullflexible,
+  backgroundcolor=\color{gray!20},
+  xleftmargin=0.1\linewidth
+}
 
 
 % To change level of indentation
@@ -102,6 +117,12 @@
     \label{#3}
   \end{minipage} 
 }
+
+\newcommand{\bash}[1]{\begin{answer}
+  \begin{lstlisting}[style=BashInputStyle]
+  #!/bin/bash
+  echo "Hello, world!"
+  \end{lstlisting}}
 
 %Customize enumerate tag
 \usepackage{enumitem}
@@ -191,28 +212,57 @@
 \section{Cuestión 1}
 \textbf{Proporcione ejemplos de llamada a a yum para buscar, instalar y eliminar paquetes (Pista: man yum)}
 \begin{answer}
-  
+  Para buscar:
+  \begin{lstlisting}[style=BashInputStyle]
+  yum search firefox
+  \end{lstlisting}
+  Para instalar:
+  \begin{lstlisting}[style=BashInputStyle]
+  yum install firefox
+  \end{lstlisting}
+  Para eliminar:
+  \begin{lstlisting}[style=BashInputStyle]
+  yum remove firefox
+  \end{lstlisting}
 \end{answer}
 
 \section{Cuestión 2}
 \textbf{¿Qué ha de hacer para que yum pueda tener acceso a Internet a través de un proxy?(Pistas: archivo de configuración
 en /etc, proxy: stargate.ugr.es:3128). ¿Cómo añadimos un nuevo repositorio?}
 \begin{answer}
+  Basta con modificar el archivo \texttt{/etc/yum.conf}, y añadir la línea:
+  \begin{lstlisting}[style=BashInputStyle]
+  proxy=http://stargate.ugr.es:3128
+  \end{lstlisting}
   
+  La referencia empleada para realizar la configuración ha sido: \cite{ej2}
 \end{answer}
 
 \section{Cuestión 3}
 \textbf{Proporcione ejemplos de comandos para buscar un paquete en un repositorio y el correspondiente para instalarlo. 
 (Pista: man apt-get ; man apt-cache)}
 \begin{answer}
-  
+  \begin{lstlisting}[style=BashInputStyle]
+  apt-cache search firefox
+  \end{lstlisting}
 \end{answer}
 
 \section{Cuestión 4}
 \textbf{Indiqué como debe modificar la configuración de apt para acceder a los repositorios a través del proxy. ¿Cómo 
 añadimos un nuevo repositorio?}
 \begin{answer}
+  Para acceder a través de un proxy, es necesario modificar el archivo \texttt{/etc/apt/apt.conf},
+  añadiendo la siguiente línea:
+  \begin{lstlisting}[style=BashInputStyle]
+  Acquire::http::Proxy "http://stargate.ugr.es:3128";
+  \end{lstlisting}
+  Para añadir un repositorio:
+  \begin{lstlisting}[style=BashInputStyle]
+  sudo add-apt-repository "url"
+  \end{lstlisting}
   
+  Las referencias empleadas para confeccionar esta respuesta han sido: \cite{aptproxy} y
+  \cite{aptrepo}.
 \end{answer}
 
 \section{Cuestión 5}
