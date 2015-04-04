@@ -385,7 +385,34 @@ y accediéndolo con un navegador web. Presente la captura de pantalla del result
 de MySQL accediendo a la BBDDs por defecto (mysql) y consultando los usuarios definidos en el sistema (select * from user). 
 Documente con capturas de pantalla el acceso y resultado de la consulta.}
 \begin{answer}
+  Instalamos LAMP en Ubuntu, y accedemos a Apache desde el navegador de la máquina 
+  anfitrión, usando la IP 192.168.56.2 correspondiente a un interfaz sólo anfitrión
+  en la máquina virtualizada.
   
+  Creamos el fichero en \texttt{/var/www/html/}. Todo ello se aprecia en la \ref{c9-1}
+  
+  \imagen{../images/2c9-1.jpeg}{Creación del fichero .php}{c9-1}{1}
+  
+  El proceso de consulta de los usuarios definidos en mysql se ilustra en las siguientes
+  imágenes:
+  Iniciamos sesión en mysql, como se refleja en la \ref{c9-2}
+  
+  \imagen{../images/2c9-2.jpeg}{Inicio de sesión mysql}{c9-2}{1}
+  
+  Indicamos que queremos usar la base de datos \texttt{mysql}, como se muestra en 
+  \ref{c9-3}
+  
+  \imagen{../images/2c9-3.jpeg}{Usamos la base de datos mysql}{c9-3}{1}
+  
+  Introducimos la consulta, tal y como se indica en \ref{c9-4}
+  
+  \imagen{../images/2c9-4.jpeg}{Consultamos los usuarios definidos}{c9-4}{1}
+  
+  El resultado de la consulta se muestra en \ref{c9-5}
+  
+  \imagen{../images/2c9-5.jpeg}{Usamos la base de datos mysql}{c9-5}{1}
+  
+  Las referencias empleadas han sido: \cite{lamp},\cite{usemysql}
 \end{answer}
 
 \section{Cuestión 10}
