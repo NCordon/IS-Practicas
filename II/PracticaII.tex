@@ -235,8 +235,13 @@ en /etc, proxy: stargate.ugr.es:3128). ¿Cómo añadimos un nuevo repositorio?}
 \textbf{Proporcione ejemplos de comandos para buscar un paquete en un repositorio y el correspondiente para instalarlo. 
 (Pista: man apt-get ; man apt-cache)}
 \begin{answer}
+  Para buscarlo:
   \begin{lstlisting}[style=BashInputStyle]
   apt-cache search firefox
+  \end{lstlisting}
+  Para instalarlo:
+  \begin{lstlisting}[style=BashInputStyle]
+  apt-get install firefox
   \end{lstlisting}
 \end{answer}
 
@@ -316,7 +321,7 @@ el servicio para que tome los cambios}
   service ssh reload
   \end{lstlisting}
   
-  En la \ref{c6-1} se aprecia como se rechaza cualquier conexión SSH al puerto 22,
+  En la \ref{c6-2} se aprecia como se rechaza cualquier conexión SSH al puerto 22,
   y cómo no podemos ya logearnos como root, pero sí como otro usuario.
   
   \imagen{../images/2c6-2.jpeg}{SSH con root deshabilitado a través de puerto 443}{c6-2}{1}
@@ -389,7 +394,8 @@ Documente con capturas de pantalla el acceso y resultado de la consulta.}
   anfitrión, usando la IP 192.168.56.2 correspondiente a un interfaz sólo anfitrión
   en la máquina virtualizada.
   
-  Creamos el fichero en \texttt{/var/www/html/}. Todo ello se aprecia en la \ref{c9-1}
+  Creamos el fichero en \texttt{/var/www/html/} de la máquina donde hemos instalado Apache.
+  Todo ello se aprecia en la \ref{c9-1}
   
   \imagen{../images/2c9-1.jpeg}{Creación del fichero .php}{c9-1}{1}
   
@@ -410,7 +416,7 @@ Documente con capturas de pantalla el acceso y resultado de la consulta.}
   
   El resultado de la consulta se muestra en \ref{c9-5}
   
-  \imagen{../images/2c9-5.jpeg}{Usamos la base de datos mysql}{c9-5}{1}
+  \imagen{../images/2c9-5.jpeg}{Resultado de la consulta}{c9-5}{1}
   
   Las referencias empleadas han sido: \cite{lamp},\cite{usemysql}
 \end{answer}
@@ -427,7 +433,7 @@ captura de pantalla, como accede a dicha página con el navegador web.}
   La página con los nombres y apellidos creada tiene nombre \texttt{is.html}. En la
   \ref{c10-1} se muestra cómo se accede a dicha página.
 
-  \imagen{../images/2c10-1.jpeg}{Página de prueba creada}{c10-1}{1}
+  \imagen{../images/2c10-1.jpeg}{Página de prueba creada en IIS}{c10-1}{1}
 \end{answer}
 
 \section{Cuestión 11}
@@ -436,15 +442,81 @@ por ejemplo, añadiendo un par de líneas. Calcule las diferencias entre el fich
 comandos necesarios para aplicar el parche así generado sobre el primer archivo y obtener el segundo. Documente el proceso 
 con capturas de pantalla de cada paso.}
 \begin{answer}
+  El contenido del primer fichero, de nombre \texttt{old}, es:
+    \begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+int main(){
+    cout << "Prueba para probar patch";
+    
+    for (int i=0; i<10; ++i)
+        cout << i << endl;
+
+}
+  \end{lstlisting}
+  El contenido del segundo fichero(el modificado), de nombre \texttt{new} es:
+  \begin{lstlisting}
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(){
+    string msg = "Prueba para probar patch";
+    cout << msg << endl;
+    
+    for (int i=0; i<10; ++i){
+        cout << i << endl;
+    }
+}
+  \end{lstlisting}
   
+  Para efectuar el patch, es necesario ejecutar los comandos:
+  
+  \begin{lstlisting}[style=BashInputStyle]
+  diff -u old new > mods.diff
+  patch < mods.diff
+  \end{lstlisting}
+  Con el primero se crea el archivo de diferencias entre \texttt{old} y \texttt{new}.
+  Se muestra en la \ref{c11-1}.
+  
+  \imagen{../images/2c11-1.jpeg}{Fichero .diff creado}{c11-1}{1}
+  
+  Con el segundo se aplica el parche de las diferencias a \texttt{old}, tal y como se
+  muestra en la \ref{c11-2}.
+  
+  El resultado se muestra en \ref{c11-3}.
+  
+  \imagen{../images/2c11-2.jpeg}{patch aplicado}{c11-2}{1}
+  \imagen{../images/2c11-3.jpeg}{patch ha modificado el fichero old}{c11-3}{1}
+  
+  La referencia empleada para efectuar esta pregunta ha sido: \cite{patch}
 \end{answer}
 
 \section{Cuestión 12}
 \textbf{Realice la instalación de esta aplicación y pruebe a modificar algún parámetro de algún servicio. Muestre las 
 capturas de el proceso de modificación y ponga de manifiesto el resultado.}
 \begin{answer}
+  Vamos a modificar la carpeta por la que indexa el servidor apache, es decir, dónde busca
+  los \texttt{html}. Entramos en \texttt{Server -> Apache Webserver} y modificamos el parámetro
+  de \texttt{Document Root}. Su valor original era \texttt{/var/www/html}, y lo modificamos
+  a \texttt{/var/www} de modo que ya no se nos servirá el \texttt{index.html} por defecto
+  que había, cuando intentemos acceder al servidor a través del navegador web.
   
+  El proceso de modificación se muestra en \ref{c12-1} y \ref{c12-2}.
+  
+  \imagen{../images/2c12-1.jpeg}{Entramos en webmin->Server->Apache Webserver}{c12-1}{1}
+  
+  \imagen{../images/2c12-2.jpeg}{Modificamos el root directory de :80}{c12-2}{1}
+
+  Las figuras \ref{c12-3} y \ref{c12-4} muestran la página de inicio del servidor antes
+  y después de realizar los cambios, respectivamente.
+  
+  \imagen{../images/2c12-3.jpeg}{Acceso al server antes de realizar los cambios}{c12-3}{1}
+  
+  \imagen{../images/2c12-4.jpeg}{Acceso después de realizar los cambios}{c12-4}{1}
 \end{answer}
 
+\newpage
 \printbibliography
 \end{document}
