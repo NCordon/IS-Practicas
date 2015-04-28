@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[a4paper,10pt]{article}
 % Símbolo del euro
 \usepackage[gen]{eurosym}
 % Codificación
@@ -80,14 +80,15 @@
 % code in bash style
 \lstdefinestyle{BashInputStyle}{
   language=bash,
-  basicstyle=\small\ttfamily,
+  basicstyle=\footnotesize\ttfamily,
   numberstyle=\tiny,
   numbersep=3pt,
   columns=fullflexible,
-  backgroundcolor=\color{gray!20},
-  xleftmargin=0.1\linewidth
+  backgroundcolor=\color{gray!5},
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,
+  %xleftmargin=0.1\linewidth
 }
-
 
 % To change level of indentation
 \newenvironment{answer}{%
@@ -121,6 +122,8 @@
 \usepackage{enumitem}
 %Sections don't get numbered
 \setcounter{secnumdepth}{0}
+\usepackage{fontspec}
+\setmainfont{Arial}
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -203,7 +206,7 @@
 %\imagen{ugr.jpg}{Logo de prueba}{ugr2}{size relative to the \textwidth}
 
 \section{Cuestión 1}
-\textbf{\begin{enumerate}
+\textbf{\begin{enumerate}[label=\alph*.]
          \item En qué archivos se guarda registro de  los paquetes instalados en sistema con los gestores de paquetes de Ubuntu 
          y centOS. Durante la práctica 2 instaló LAMP como un único paquete o instalando cada componente diferenciado. Busque
          en el archivo de registro las líneas correspondientes a la instalación y preséntales.         
@@ -211,11 +214,42 @@
          .1.gz.  Explique  como  se  generan  estos  archivos  y  que relación guardan entre ellos
         \end{enumerate}}
 \begin{answer}
- 
+ \begin{enumerate}[label=\alph*.] %[label=(\Alph*)] [label=(\roman*)]
+  \item Para conocer los paquetes instalados en Ubuntu, basta consultar el archivo de órdenes introducidas en \texttt{apt-get},
+  que se guarda en \texttt{/var/log/apt/history.log}, con la información
+  de los paquetes que se instalaron, actualizaron o borraron, producto de ejecutar dichas órdenes.
+  
+  Ahora bien, como \texttt{apt-get} es un front-end (una intrerfaz) de \texttt{dpkg} en las distribuciones Debian, también
+  podemos consultar el histórico de \texttt{dpkg} en \texttt{/var/log/dpkg.log}, que incluirá los paquetes instalados a través
+  de \texttt{apt-get}, aunque también los instalados directamente a través de \texttt{dpkg}
+  \cite{apt}
+  
+  El archivo que alamacena el histórico de paquetes instalados en CentOS, esto es, a través de \texttt{yum}, se encuentra en:
+  \begin{center}\texttt{/var/log/yum.log}\end{center}
+  \cite{yum}
+  
+  % Falta paquetes de LAMP
+  \item Los archivos del tipo \texttt{daemon.log.1.gz}, \texttt{daemon.log.2.gz}, \ldots\\ corresponden a antiguos logs del comando
+  \texttt{daemon} comprimidos. Análogamente, esto es extensible a los históricos de cualquier otro comando. Cada cierto tiempo, el archivo
+  \texttt{.log} se renombra a un archivo de la forma \texttt{.log.<numero>} donde se van numerando de forma ascendente (a un número
+  mayor, más reciente es el log), y el comando comenzará un nuevo histórico desde dicho momento. Pasado cierto tiempo, se comprimen dichos archivos, generando  \texttt{daemon.log.1.gz}, \texttt{daemon.log.2.gz}, \ldots; 
+  de éste modo, los archivos ocupan menos espacio en disco duro, y aún están disponibles para su consulta.
+  A este comportamiento, se le llama \textbf{Rotación de Logs}, y es el comando \texttt{logrotate}, programado a través del demonio
+  \texttt{cron} quien se encarga de llevar a cabo dicha tarea de ir renombrando y comprimiento logs. Asimismo, dicho programa
+  se puede encargar de crear nuevos logs una vez renombrados los antiguos, en función de si está especificado en su configuración
+  o no. El archivo de configuración está disponible en \texttt{/etc/logrotate.conf}
+  \cite{logs}
+ \end{enumerate}
+
 \end{answer}
 
 \section{Cuestión 2}
-\textbf{Indique los pasos que ha seguido, comandos empleados y significado de los mismos. Junto a cada comando, presente las líneas
+\textbf{Dentro de /proc existe un archivo para el estado de los multidevice como es el caso de
+nuestro /dev/md0 creado en la P1.\\
+Vamos a monitorizar el proceso de sustituir un disco dañado por uno nuevo y cómo
+podemos saber cuándo el sistema está preparado para continuar operando con
+normalidad.\\
+Indique los pasos que ha seguido, comandos empleados y significado de los mismos. Junto a cada comando, presente las líneas
 del RAID que son significativas en cada paso: indicación de fallo, reemplazo, inicio y finalización de la reconstrucción del RAID.}
 \begin{answer}
  
@@ -228,7 +262,58 @@ date). Otra tarea, se ejecutará una vez al mes y reunirá todos los directorios
 en un archivo \~/seguridad/dirCodigo.<numero>.gz. Presente las líneas de configuración de cron afectadas, explicando
 su significado. Si crea ficheros por lotes, presente y explique el código.}
 \begin{answer}
+ Creamos en \texttt{/etc/cron.daily} el siguiente script, de nombre \texttt{ej3}:
  
+\begin{lstlisting}[style=BashInputStyle]
+#!/bin/bash
+
+if [[ -d ~/codigo ]]
+then
+    DIR=~/seguridad/$(date +%m-%d-%y)
+    mkdir -p $DIR 2> /dev/null
+    cp ~/codigo/* $DIR 
+else
+    mkdir -p ~/codigo
+fi
+\end{lstlisting}
+  
+  El script comprueba primero si existe el directorio \texttt{~/codigo}. Si no existe, lo crea. Si existe, crea una carpeta
+  con el formato \texttt{mes-dia-año} de la fecha en que nos encontremos en \texttt{~/seguridad}, y copia el contenido de \texttt{~/codigo}
+  en ella.
+  
+  Creamos en \texttt{/etc/cron.monthly} el siguiente script, de nombre \texttt{ej3}:
+  
+\begin{lstlisting}[style=BashInputStyle]
+#!/bin/bash
+
+let MONTH=$(date +%m)-1
+N=0
+
+if [[ MONTH -lt 10 ]]
+then
+    MONTH=0$MONTH
+fi
+
+
+for FILE in $(ls ~/seguridad/dirCodigo*.gz 2> /dev/null)
+do
+    ACTUAL=$(echo $FILE | egrep -o "[[:digit:]]+")
+    let ACTUAL=$ACTUAL+1
+    
+    if [[ ACTUAL -gt N ]]
+    then
+	N=$ACTUAL
+    fi
+done
+
+tar -czvf ~/seguridad/dirCodigo$N.gz ~/seguridad/${MONTH}* &> /dev/null
+\end{lstlisting}
+  
+  El script halla el mes actual, y le resta uno. Como esta operación hará que el mes pierda el 0 inicial si lo llevaba, se lo añadimos
+  si se trata de un mes menor a 10. Esto lo emplearemos para hallar los directorios del mes anterior posteriormente.
+  El script halla a continuación el número por el que proseguir numerando los archivos \texttt{.gz}. Por ejemplo, si ya estaban
+  creados los archivos \texttt{dirCodigo0.gz} y \texttt{dirCodigo1.gz}, el archivo que creará el script tendrá por nombre \texttt{dirCodigo2.gz}
+  Por último el script empaqueta en el archivo \texttt{.gz} de número hallado anteriormente todos los directorios del mes anterior.
 \end{answer}
 
 \section{Cuestión 4}
