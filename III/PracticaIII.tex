@@ -80,11 +80,11 @@
 % code in bash style
 \lstdefinestyle{BashInputStyle}{
   language=bash,
-  basicstyle=\footnotesize\ttfamily,
+  basicstyle=\ttfamily,
   numberstyle=\tiny,
   numbersep=3pt,
   columns=fullflexible,
-  backgroundcolor=\color{gray!5},
+  backgroundcolor=\color{gray!20},
   showspaces=false,               % show spaces adding particular underscores
   showstringspaces=false,
   %xleftmargin=0.1\linewidth
@@ -124,7 +124,16 @@
 \setcounter{secnumdepth}{0}
 \usepackage{fontspec}
 \setmainfont{Arial}
-
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=30mm,
+ right=30mm,
+ top=25mm,
+ bottom=25mm,
+ }
+ 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % University Assignment Title Page 
@@ -209,7 +218,7 @@
 \textbf{\begin{enumerate}[label=\alph*.]
          \item En qué archivos se guarda registro de  los paquetes instalados en sistema con los gestores de paquetes de Ubuntu 
          y centOS. Durante la práctica 2 instaló LAMP como un único paquete o instalando cada componente diferenciado. Busque
-         en el archivo de registro las líneas correspondientes a la instalación y preséntales.         
+         en el archivo de registro las líneas correspondientes a la instalación y preséntalas.         
          \item En el directorio /var/log es común encontar archivos con extensiones en formato <numero>.gz.  Por  ejemplo,  
          .1.gz.  Explique  como  se  generan  estos  archivos  y  que relación guardan entre ellos
         \end{enumerate}}
@@ -227,6 +236,14 @@
   El archivo que alamacena el histórico de paquetes instalados en CentOS, esto es, a través de \texttt{yum}, se encuentra en:
   \begin{center}\texttt{/var/log/yum.log}\end{center}
   \cite{yum}
+  
+  Las líneas correspondientes a la instalación de LAMP son las correspondientes a \ref{lamp1} y \ref{lamp2}
+  
+  \imagen{../images/11p3.jpeg}{Instalación de \texttt{apache}}{lamp1}{1.0}
+
+  \imagen{../images/12p3.jpeg}{Instalación de \texttt{mysql} y \texttt{php}}{lamp2}{1.0}
+
+  
   
   % Falta paquetes de LAMP
   \item Los archivos del tipo \texttt{daemon.log.1.gz}, \texttt{daemon.log.2.gz}, \ldots\\ corresponden a antiguos logs del comando
@@ -252,7 +269,50 @@ normalidad.\\
 Indique los pasos que ha seguido, comandos empleados y significado de los mismos. Junto a cada comando, presente las líneas
 del RAID que son significativas en cada paso: indicación de fallo, reemplazo, inicio y finalización de la reconstrucción del RAID.}
 \begin{answer}
+ Antes de comenzar el proceso, introducimos un disco de 8GB en la máquina virtual (del tamaño de los dos ya presentes).
+antes de iniciarla, ya que durante su ejecución no podemos ni añadir ni retirar discos.
+En nuestro caso, tal y como releja la \ref{rprevprev} tiene por identificador \texttt{/dev/sdc}
  
+\imagen{../images/31p3.png}{Se muestra \texttt{/dev/sdc} recién introducido}{rprevprev}{1.0}
+
+ Tenemos abiertas dos terminales en la máquina virtual. En una, antes de comenzar todo el proceso, tecleamos:
+\begin{lstlisting}[style=BashInputStyle]
+ watch cat /proc/mdstat
+\end{lstlisting}
+
+Tal y como muestra dicha terminal al comienzo están los dos discos duros (\texttt{/dev/sda1} y \texttt{/dev/sdb1}) en correcto funcionamiento en el
+RAID (en nuestro caso \texttt{md0} tal y como se indica en la \ref{rprev}), esto es, están marcados como activos.
+
+\imagen{../images/32p3.png}{Estado de /proc/mdstat antes de modificar el RAID}{rprev}{1.0}
+
+En la otra terminal tecleamos lo reflejado en la \ref{r1}. Esto marca el disco \texttt{/dev/sda1} como defectuoso
+dentro del RAID, y por tanto la próxima vez que se reinicie, el disco ya no formará parte del RAID.
+
+\imagen{../images/32p3.png}{Se marca el disco \texttt{/dev/sda1} como defectuoso}{r1}{1.0}
+
+\texttt{/dev/sda1[2] (F)} se muestra en \texttt{/proc/mdstat} indicando que el disco ha fallado. Se refleja en la
+\ref{r2}
+
+\imagen{../images/34p3.png}{\texttt{/proc/mdsat} ya marca el disco como defectuoso}{r2}{1.0}
+
+Hacemos:
+\begin{lstlisting}[style=BashInputStyle]
+ sudo mdadm --manage /dev/md0 --add /dev/sdc
+\end{lstlisting}
+tal y como se refleja en la \ref{r3}. Esto añade el nuevo disco al RAID.
+
+\imagen{../images/35p3.png}{Añadimos el nuevo disco al RAID}{r3}{1.0}
+
+Comienza la reconstrucción de \texttt{/dev/sdc}, tal y como se refleja en \ref{r4}. Esto es, debe ser un espejo
+de \texttt{/dev/sdb1}, y por tanto se duplica el contenido de este último en el nuevo disco.
+
+\imagen{../images/36p3.png}{Comienza su reconstrucción}{r4}{1.0}
+
+Cuando finaliza su reconstrucción, el disco ya está utilizable, tal y como muestra \ref{r5}; \texttt{/dev/sda1} sigue marcado como defectuoso,
+y se eliminará del RAID cuando se reinicie la máquina virtual, quedando sólo \texttt{/dev/sdb1} y \texttt{/dev/sdc}
+formando parte del RAID.
+
+\imagen{../images/37p3.png}{Termina su reconstrucción}{r5}{1.0}
 \end{answer}
 
 \section{Cuestión 3}
@@ -262,7 +322,7 @@ date). Otra tarea, se ejecutará una vez al mes y reunirá todos los directorios
 en un archivo \~/seguridad/dirCodigo.<numero>.gz. Presente las líneas de configuración de cron afectadas, explicando
 su significado. Si crea ficheros por lotes, presente y explique el código.}
 \begin{answer}
- Creamos en \texttt{/etc/cron.daily} el siguiente script, de nombre \texttt{ej3}:
+ Creamos en una carpeta, por ejemplo en \texttt{\$HOME} el siguiente script, de nombre \texttt{diario.sh}, y le damos permisos de ejecución.
  
 \begin{lstlisting}[style=BashInputStyle]
 #!/bin/bash
@@ -271,7 +331,7 @@ if [[ -d ~/codigo ]]
 then
     DIR=~/seguridad/$(date +%m-%d-%y)
     mkdir -p $DIR 2> /dev/null
-    cp ~/codigo/* $DIR 
+    cp ~/codigo/* $DIR 2> /dev/null
 else
     mkdir -p ~/codigo
 fi
@@ -281,7 +341,7 @@ fi
   con el formato \texttt{mes-dia-año} de la fecha en que nos encontremos en \texttt{~/seguridad}, y copia el contenido de \texttt{~/codigo}
   en ella.
   
-  Creamos en \texttt{/etc/cron.monthly} el siguiente script, de nombre \texttt{ej3}:
+  Creamos en \texttt{\$HOME} también el siguiente script, de nombre \texttt{semanal.sh}:
   
 \begin{lstlisting}[style=BashInputStyle]
 #!/bin/bash
@@ -314,17 +374,106 @@ tar -czvf ~/seguridad/dirCodigo$N.gz ~/seguridad/${MONTH}* &> /dev/null
   El script halla a continuación el número por el que proseguir numerando los archivos \texttt{.gz}. Por ejemplo, si ya estaban
   creados los archivos \texttt{dirCodigo0.gz} y \texttt{dirCodigo1.gz}, el archivo que creará el script tendrá por nombre \texttt{dirCodigo2.gz}
   Por último el script empaqueta en el archivo \texttt{.gz} de número hallado anteriormente todos los directorios del mes anterior.
-\end{answer}
+
+  Ahora añadimos las siguientes líneas a \texttt{/etc/crontab}:
+  \begin{lstlisting}[style=BashInputStyle]
+   0 12 * * * $HOME/diario.sh
+   0 12 * * 0 $HOME/semanal.sh
+  \end{lstlisting}
+  
+  La primera línea hace que el script \texttt{diario.sh} se ejecute a las 12:00 AM  todos los días.
+  La segunda hace que el script \texttt{semanal.sh} se ejecute a las 12:00 AM todos los domingos.
+  
+  Otra alternativa es usar \texttt{anacron} en lugar de \texttt{cron}, para lo que solamente habría que copiar
+  los ficheros \texttt{diario.sh} y \texttt{semanal.sh} a \texttt{/etc/cron.daily} y \texttt{/etc/cron.weekly} respectivamente.
+  La diferencia fundamental con \texttt{cron} es que \texttt{anacron} no espera que el equipo esté encendido continuamente, mientras que
+  \texttt{cron} ejecuta las tareas a una hora prefijada y si el equipo no está encendido a esa hora, ya no vuelve a intentar ejecutar la tarea
+  ese día, aunque el equipo esté operativo más tarde.
+  
+  \cite{cron} \cite{anacron}
+  \end{answer}
 
 \section{Cuestión 4}
 \textbf{\begin{enumerate}
-         \item Pruebe a ejecutar el comando, conectar un dispositivo USB y vuelva a ejecutar el comando. Copie y peque las líneas
+         \item Pruebe a ejecutar el comando \texttt{dmesg}, conectar un dispositivo USB y vuelva a ejecutar el comando. Copie y peque las líneas
          que hacen mención al dispositivo conectado (considere usar dmesg|tail).
          %??????????
          \item Explique las diferencias(si las hay) entre o consueltar el consultar el contenido del archivo /var/log/dmesg.
         \end{enumerate}}
 \begin{answer}
- 
+ \begin{enumerate}
+  \item Para la primera parte podemos usar \texttt{watch 'dmesg | tail -25'}, aunque si necesitásemos más líneas,
+  podríamos emplear un número mayor que 25.
+  Antes de conectar se tiene \ref{prevusb}.
+  
+  \imagen{../images/41p3.png}{Salida de \texttt{dmesg} previa a conectar el USB}{prevusb}{.9}
+  
+  Después de conectar el usb se tiene \ref{afterusb}.
+  
+   \imagen{../images/42p3.png}{Salida de \texttt{dmesg} posterior a conectar el USB}{afterusb}{.9}
+   
+   Por tanto las líneas obtenidas han sido:
+  \begin{lstlisting}[style=BashInputStyle,basicstyle=\footnotesize\ttfamily]
+[  125.859239] usb 1-1: USB disconnect, device number 2
+[  127.720081] usb 1-1: new high-speed USB device number 3 using ehci-pci
+[  127.880837] usb 1-1: New USB device found, idVendor=8564, idProduct=1000
+[  127.880841] usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[  127.880843] usb 1-1: Product: Mass Storage Device
+[  127.880845] usb 1-1: Manufacturer: JetFlash
+[  127.880846] usb 1-1: SerialNumber: XZCAS49T
+[  127.883114] usb-storage 1-1:1.0: USB Mass Storage device detected
+[  127.883226] scsi6 : usb-storage 1-1:1.0
+[  128.887776] scsi 6:0:0:0: Direct-Access     JetFlash Transcend 2GB    8.07 PQ: 0 ANSI: 2
+[  128.887988] sd 6:0:0:0: Attached scsi generic sg4 type 0
+[  128.912840] sd 6:0:0:0: [sdd] 3948544 512-byte logical blocks: (2.02 GB/1.88 GiB)
+[  128.919565] sd 6:0:0:0: [sdd] Write Protect is off
+[  128.919570] sd 6:0:0:0: [sdd] Mode Sense: 03 00 00 00
+[  128.926431] sd 6:0:0:0: [sdd] No Caching mode page found
+[  128.926564] sd 6:0:0:0: [sdd] Assuming drive cache: write through
+[  129.422893]  sdd: sdd1
+[  129.461971] sd 6:0:0:0: [sdd] Attached SCSI removable disk
+  \end{lstlisting}
+\item 
+El output que ofrece \texttt{dmesg} contiene el contenido el contenido del archivo \texttt{/var/log/dmesg}, pero
+sólo hasta cierto punto del proceso de boot del ordenador. De hecho \texttt{dmesg} está configurado en \texttt{/etc/init/dmesg.conf}
+para copiar cuando arranca el proceso \texttt{init} los logs iniciales del proceso de booteo (en concreto 524288 bytes del
+buffer donde se almacena esta información (conocido como \textit{kernel ring buffer}, porque una vez está lleno, la información
+sigue escribiéndose sobreescribiendo la información más antigua). Este archivo de configuración contiene el siguiente código:
+
+\begin{lstlisting}[style=BashInputStyle]
+# dmesg - save kernel messages
+#
+# This task saves the initial kernel message log.
+
+description	"save kernel messages"
+
+start on runlevel [2345]
+
+task
+script
+    savelog -q -p -c 5 /var/log/dmesg
+    dmesg -s 524288 > /var/log/dmesg
+    chgrp adm /var/log/dmesg
+end script
+\end{lstlisting}
+
+Es en concreto la línea \texttt{dmesg -s 524288 > /var/log/dmesg} la que almacena la información en el archivo.
+
+Aparte del archivo \texttt{/var/log/dmesg}, existen los siguientes:
+\begin{itemize}
+ \item \texttt{/var/log/kern.log} que contiene en las distros Debian la misma información que aporta \texttt{dmesg},
+ pero con el timestamp de cada evento
+ \item \texttt{/var/log/messages}, que contiene también el contenido de \texttt{/var/log/dmeseg} y contiene
+ mensajes sobre eventos no críticos, al contrario que \texttt{/var/log/kern.log} que recoge mensajes sobre eventos
+ críticos.
+ \item \texttt{/var/log/syslog}, que es el log más general de las distros Debian. En particular, contiene a los dos logs
+ mencionados.
+\end{itemize}
+
+\cite{dmesg} \cite{syslog}
+
+ \end{enumerate}
+
 \end{answer}
         
 \section{Cuestión 5}
@@ -341,14 +490,89 @@ tar -czvf ~/seguridad/dirCodigo$N.gz ~/seguridad/${MONTH}* &> /dev/null
 	 Incluya las capturas de pantalla de cada paso.
          \end{enumerate}}
 \begin{answer}
+ \begin{enumerate}
+  \item En la \ref{perf} se muestra una captura del Performance Monitor de Windows Server.
+  
+  \imagen{../images/51p3.jpeg}{Monitor de Rendimiento de Windows Server}{perf}{1.0}
+  
+  El monitor muestra para 100 segundos(este parámetro se le puede cambiar) 1 muestra por segundo en la que toma
+  el valor de la utilización de la CPU en ese momento. Y va graficando todos los datos y obteniendo información sobre
+  ellos, como la media, el máximo hasta el momento de utilización, y el mínimo. También se puede cambiar el \textit{Sampling Time},
+  o cada cuánto recoge el monitor muestras. En la figura está configurado a 1 segundo.
+  
+  \item El proceso para crear el recopilador de datos se muestra en \ref{52}, \ref{53}, \ref{54}, \ref{55}, \ref{56},
+  \ref{57}, \ref{58}, \ref{59}, \ref{510}
+  
+    \imagen{../images/52p3.jpeg}{Creamos un nuevo recopilador de datos}{52}{.8}
+    \imagen{../images/53p3.jpeg}{Marcamos la opción de contador de rendimiento y de seguimiento}{53}{.8}
+    \imagen{../images/54p3.jpeg}{Añadimos los proveedores relacionados con el procesador, el proceso, y el servicio web}{54}{.8}
+    \imagen{../images/55p3.jpeg}{Añadimos los proveedores relacionados con el procesador, el proceso, y el servicio web}{55}{.8}
+    \imagen{../images/56p3.jpeg}{Añadimos los proveedores relacionados con el procesador, el proceso, y el servicio web}{56}{.8}
+    \imagen{../images/57p3.jpeg}{Clicamos en las proiedades del Contador de rendimiento, y nos aseguramos que sample interval=15}{57}{.8}
+    \imagen{../images/58p3.jpeg}{Añadimos los de procesador, proceso y servicio web}{58}{.8}
+    \imagen{../images/59p3.jpeg}{Clicamos en propiedades del recolector de datos}{59}{.8}
+    \imagen{../images/510p3.jpeg}{En la pestaña Directory, cambiamos el directorio raíz a Escritorio$\backslash$ logs}{510}{.8}
+
+ 
+ 
+ \end{enumerate}
+
  
 \end{answer}
          
 \section{Cuestión 6}
 \textbf{Elija uno de los sistemas de monitorización descritos en este apartado e instálelo. Describa los pasos seguidos así
-como posibles incidencias en la isntalación que ha debido resolver. MOnitorice uno o varios de sus servidores y presente
+como posibles incidencias en la instalación que ha debido resolver. Monitorice uno o varios de sus servidores y presente
 ejemplos de algunas medidas que considere significativas, explicando su significado y los valores reales observados.}
 \begin{answer}
+ Vamos a instalar Ganglia en Ubuntu Server.
+ 
+ Ganglia está compuesto de un demonio de monitorización(\texttt{gmond}); de un demonio que recoge los datos de 
+ todos los \texttt{gmond} instalados en los clientes, llamado \texttt{gmetad} y de un front-end con interfaz web
+ que permite acceder a través de un servidor apache a los datos recogidos por Ganglia.
+ 
+ Para la instalación de todo esto se ha ejecutado:
+ \begin{lstlisting}[style=BashInputStyle]
+  sudo apt-get install ganglia-monitor rrdtool gmetad ganglia-webfrontend
+ \end{lstlisting}
+ 
+ Y cuando ha pedido confirmación para reiniciar Apache, tal que en la \ref{reinitapache} hemos aceptado.
+ 
+ \imagen{../images/62p3.jpeg}{Ganglia pide reiniciar Apache}{reinitapache}{1.0}
+ 
+ Para activar el web front-end ha hecho falta ejecutar:
+ \begin{lstlisting}[style=BashInputStyle]
+  sudo cp /etc/ganglia-webfrontend/apache.conf /etc/apache2/sites-enabled/ganglia.conf
+ \end{lstlisting}
+ 
+ Para que esté disponible a través del servidor Apache.
+ 
+ Y por último ha sido necesario iniciar los demonios de Ganglia y reiniciar Apache:
+ \begin{lstlisting}[style=BashInputStyle]
+sudo /etc/init.d/ganglia-monitor start
+sudo /etc/init.d/gmetad start
+sudo /etc/init.d/apache2 restart
+ \end{lstlisting}
+
+ Estos últimos pasos se corresponden a los de la \ref{ganglia}.
+ 
+ \imagen{../images/63p3.jpeg}{Habilitando el front-end de \texttt{ganglia}}{ganglia}{1.0}
+ 
+ Entramos en el navegador, a través de una IP que tenemos configurada en Ubuntu Server en la misma subred que el interfaz
+ \texttt{vboxnet0} en la máquina host: \texttt{192.168.56.2}. Y entramos a la página: \texttt{192.168.56.2/ganglia}
+
+ \texttt{ganglia} nos ofrece entre otras gráficas:
+ \begin{itemize}
+ \item La de la carga media del servidor: esto es número de procesos en el servidor por segundo, tal y como se muestra
+ en la \ref{load}
+ 
+   \imagen{../images/64p3.jpeg}{Carga de procesos en el servidor}{load}{.8}
+ 
+ \item Tal y como se refleja en la \ref{net} se refleja la carga de la red: número de bytes transferidos (en azul)
+ y número de bytes recibidos (en verde) por el servidor.
+ 
+   \imagen{../images/65p3.jpeg}{Tráfico de red del servidor}{net}{.8}
+ \end{itemize}
  
 \end{answer}
 
