@@ -1,0 +1,301 @@
+\documentclass[a4paper,10pt]{article}
+% Símbolo del euro
+\usepackage[gen]{eurosym}
+% Codificación
+\usepackage[utf8]{inputenc}
+% Idioma
+\usepackage[spanish]{babel} % English language/hyphenation
+\selectlanguage{spanish}
+% Hay que pelearse con babel-spanish para el alineamiento del punto decimal
+\decimalpoint
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{\esperiod}{#1}}
+\makeatletter
+\addto\shorthandsspanish{\let\esperiod\es@period@code}
+\makeatother
+% To work with bibtex
+%\usepackage{natbib}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\renewcommand*{\newunitpunct}{\newline\space}
+
+
+\bibliography{references}
+\usepackage{longtable}
+\usepackage{tabu}
+\usepackage{supertabular}
+
+\usepackage{multicol}
+\newsavebox\ltmcbox
+
+% Para algoritmos
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{amsthm}
+% Para matrices
+\usepackage{amsmath}
+
+% Símbolos matemáticos
+\usepackage{amssymb}
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+% Hipervínculos
+\usepackage{url}
+
+\usepackage[section]{placeins} % Para gráficas en su sección.
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Required for accented characters
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\setlength{\parindent}{0pt}
+\parskip=8pt
+\linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
+
+
+% Imágenes
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{wrapfig} % Allows in-line images
+
+% Referencias
+\usepackage{fncylab}
+\labelformat{figure}{\textit{\figurename\space #1}}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
+
+%Basado en: http://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\newtheorem*{mydef}{Definición}
+\newtheorem{mydefn}{Definición}
+\newtheorem{theorem}{Teorema}
+\everymath{\displaystyle} % Displaystyle por defecto
+
+% To include code
+\usepackage{xcolor}
+\usepackage{listings}
+
+% code in bash style
+\lstdefinestyle{BashInputStyle}{
+  language=bash,
+  basicstyle=\ttfamily,
+  numberstyle=\tiny,
+  numbersep=3pt,
+  columns=fullflexible,
+  backgroundcolor=\color{gray!10},
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,
+  breaklines=true
+  %xleftmargin=0.1\linewidth
+}
+
+% To change level of indentation
+\newenvironment{answer}{%
+\begin{list}{}{%
+}%
+\item[]}{\end{list}}
+
+
+\makeatletter
+\renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
+\newcommand{\imagent}[4]{
+  \begin{wrapfigure}{#4}{0.7\textwidth}
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{#1}
+    \end{center}
+    \caption{#3}
+    \label{#4}
+  \end{wrapfigure}
+}
+
+\newcommand{\imagen}[4]{
+  \begin{minipage}{\linewidth}
+    \centering
+    \includegraphics[width=#4\textwidth]{#1}
+    \captionof{figure}{#2}
+    \label{#3}
+  \end{minipage} 
+}
+
+%Customize enumerate tag
+\usepackage{enumitem}
+%Sections don't get numbered
+\setcounter{secnumdepth}{0}
+\usepackage{fontspec}
+\setmainfont{Arial}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=30mm,
+ right=30mm,
+ top=25mm,
+ bottom=25mm,
+ }
+ 
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+% Modified by: NCordon (https://github.com/NCordon)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% want your title page.
+% OR
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+% move this file to the same directory as the LaTeX file you wish to add it to. 
+% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+% title page.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+\textsc{\LARGE Universidad de Granada}\\[1.5cm]
+\textsc{\Large Ingeniería de Servidores}\\[0.5cm] 
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\bigskip
+\HRule \\[0.4cm]
+{ \huge \bfseries Práctica IV}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{center} \large
+\emph{Ignacio Cordón Castillo}\\
+\end{center}
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{center}
+\includegraphics[width=9cm]{../images/ugr.jpg}
+\end{center}
+%----------------------------------------------------------------------------------------
+
+\vspace{\fill}% Fill the rest of the page with whitespace
+\large\today
+\end{titlepage}  
+
+\newpage
+\tableofcontents
+\newpage
+% Examples of inclussion of images
+%\imagent{ugr.jpg}{Logo de prueba}{ugr}
+%\imagen{ugr.jpg}{Logo de prueba}{ugr2}{size relative to the \textwidth}
+
+\section{Cuestión 1}
+\textbf{Instale Phoronix Suite, seleccione un benchmark de entre los disponibles, descárguelo y ejecútelo. Describa el 
+  propósito del benchmark y su interés en el mismo. Explique razonadamente el significado de los resultados
+  obtenidos}
+\begin{answer}
+ 
+\end{answer}
+
+\section{Cuestión 2}
+\textbf{Instale una de las aplicaciones de benchmark: SisoftSandra o Aida. Seleccione un benchmark y ejecútelo.
+  Describa el propósito del benchmark y su interés en el mismo. Explique razonadamente el significado de los
+  resultados obtenidos.}
+\begin{answer}
+ 
+\end{answer}
+
+\section{Cuestión 3}
+\textbf{Desarrolle un Benchmark.
+ \begin{enumerate}[label=\alph*.]
+  \item Diseño del Benchmark:\\
+  Debe elegir un recurso IT sobre el que plantear su hipótesis. Se valorará
+  especialmente que se opte por elementos de la infraestructura IT
+  (servidores, recursos del SO, hardware, networking, etc.) frente a
+  componentes de desarrollo de software (lenguajes de programación,
+  algoritmos, etc.). En todo caso, el experimento debe poder reproducirse
+  en el aula de prácticas. Por ello, no plantee experimentos que no puedan
+  simularse en el aula.\\
+  Explique el interés de la hipótesis elegida, así como el de los factores y
+  niveles analizados. Como mínimo debe plantear un experimento de 1
+  factor con 3 niveles.\\
+  Describa la carga de trabajo elegida, la forma de registrarla o simularla y
+  cómo alimenta el experimento.\\
+  Describa las medidas tomadas y tratamiento estadístico aplicado para
+  obtener las métricas. Justifique si la técnica empleada para la obtención
+  de las medidas puede, o no, distorsionar los resultados observados.\\
+  Finalmente, explique si se cumple o no la hipótesis de acuerdo con el
+  factor de confianza elegido. El alumno deberá justificar, de manera
+  especialmente detallada y razonada, la no obtención de resultados
+  significativos para niveles de confianza estándar del 95\%.\\
+  \item Programación del Benchmark:\\
+  Programe el benchmark en un lenguaje de su elección. Se valorará que
+  la tecnología elegida y el diseño sean adecuados a los factores a
+  analizar.\\
+  Mediante un organigrama, describa el funcionamiento del benchmark.\\
+  El resultado de la ejecución del programa, será, como mínimo, un fichero
+  de texto plano tabulado, en un formato estándar (csv, xml,\ldots) con
+  las métricas obtenidas para los factores y niveles del experimento.\\
+  El alumno podrá analizar estos resultados de dos formas:\\
+  \begin{itemize}
+   \item Integrando la lógica de análisis en el propio programa, mediante
+    el uso de una librería estadística. Esta será la opción más valorada.
+   \item Importando los resultados a una herramienta estadística de su elección
+    y realizando el permitente análisis off-line.
+  \end{itemize}
+  En ambos casos, el alumno deberá explicar los resultados obtenidos.\\
+  El benchmark debe funcionar de forma autónoma, reduciendo al máximo
+  la necesidad de intervención del usuario. Por ejemplo, limitándola al
+  cambio de dispositivo hardware. En todo caso, el programa debe interactuar
+  con el usuario de forma sencilla y clara.\\
+  \item Entregables:\\
+  Las respuestas al apartado de diseño se realizarán en el habitual
+  documento de memoria de prácticas.\\
+  El alumno adjuntará, en un archivo comprimido y organizado en
+  subdirectorios, todos los artefactos de desarrollo empleados en la
+  creación del benchmark: código fuente debidamente comentado,
+  documentación de diseño, archivos de datos con la carga de trabajo, etc.\\
+  Además proporcionará un manual con la organización de los contenidos
+  del archivo comprimido e instrucciones para la instalación y ejecución
+  del programa.
+ \end{enumerate}
+}
+
+
+ 
+ \begin{answer}
+ 
+\end{answer}
+
+\newpage
+\printbibliography
+\end{document}
