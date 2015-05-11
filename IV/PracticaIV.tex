@@ -223,7 +223,66 @@
   propósito del benchmark y su interés en el mismo. Explique razonadamente el significado de los resultados
   obtenidos}
 \begin{answer}
+ Instalamos Phoroni Test Suite en Ubuntu Server mediante la orden:
+ \begin{lstlisting}[style=BashInputStyle]
+  sudo apt-get install phoronix-test-suite
+ \end{lstlisting}
  
+ tal y como se muestra en \ref{phorinst}
+ 
+  \imagen{../images/11p4.jpeg}{Proceso de instalación de Phoronix}{phorinst}{1.0}
+ 
+ Listamos los test disponibles mediante la orden:
+ \begin{lstlisting}[style=BashInputStyle]
+  phoronix-test-suite list-available-suites
+ \end{lstlisting} 
+ 
+ Para poder ejecutar un test y que se nos descarguen las dependencias de forma adecuada, tal y como explica la Referencia
+ empleada, hay que modificar las líneas del archivo:
+ \begin{lstlisting}[style=BashInputStyle]
+ /usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh
+ \end{lstlisting}
+ 
+ que contienen lo siguiente:
+ 
+ \begin{lstlisting}[style=BashInputStyle]
+if [ -x /usr/bin/aptitude ]; then
+        # aptitude is nice since it doesn't fail if a non-existant package is hit
+        # See: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=503215
+        $ROOT -- "aptitude -y install $*"
+else
+        $ROOT -- "apt-get -y --ignore-missing install $*"
+fi
+ \end{lstlisting}  
+ 
+ por:
+ \begin{lstlisting}[style=BashInputStyle]
+if [ -x /usr/bin/aptitude ]; then
+        # aptitude is nice since it doesn't fail if a non-existant package is hit
+        # See: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=503215
+        $ROOT -- aptitude -y install $*
+else
+        $ROOT -- apt-get -y --ignore-missing install $*
+fi
+ \end{lstlisting}  
+ 
+ De entre todos los test ofrecidos por Phoronix, hemos ejecutado el que evalúa la compresión de archivos
+ 7-zip mediante la orden:
+ \begin{lstlisting}[style=BashInputStyle]
+  phoronix-test-suite benchmark pts/compress-7zip
+ \end{lstlisting}  
+ 
+ La compresión de archivos es un proceso que implica gran trabajo por parte de la CPU buscando bits comunes de 
+ información en los archivos a comprimir. Se han realizado tres repeticiones de la compresión (desconocemos
+ el tamaño o la naturaleza de los archivos a comprimir ya que el programa no aporta esa información), y se han
+ medido los MIPS del procesador, obteniendo como resultado: 3419, 3500, 3456 MIPS respectivamente. Es decir,
+ de media se han obtenido 3458 MIPS, con una desviación típica del 1.17\%.
+ 
+ Los resultados del test se muestran en la \ref{phoresults}
+ 
+ \imagen{../images/12p4.jpeg}{Resultados de la ejecución del test}{phoresults}{1.0}
+ 
+ \cite{phor}
 \end{answer}
 
 \section{Cuestión 2}
