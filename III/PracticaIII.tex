@@ -16,6 +16,9 @@
 % To work with bibtex
 %\usepackage{natbib}
 \usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\renewcommand*{\newunitpunct}{\newline\space}
+
+
 \bibliography{references}
 \usepackage{longtable}
 \usepackage{tabu}
@@ -84,9 +87,10 @@
   numberstyle=\tiny,
   numbersep=3pt,
   columns=fullflexible,
-  backgroundcolor=\color{gray!20},
+  backgroundcolor=\color{gray!10},
   showspaces=false,               % show spaces adding particular underscores
   showstringspaces=false,
+  breaklines=true
   %xleftmargin=0.1\linewidth
 }
 
@@ -268,10 +272,9 @@ podemos saber cuándo el sistema está preparado para continuar operando con
 normalidad.\\
 Indique los pasos que ha seguido, comandos empleados y significado de los mismos. Junto a cada comando, presente las líneas
 del RAID que son significativas en cada paso: indicación de fallo, reemplazo, inicio y finalización de la reconstrucción del RAID.}
-\begin{answer}
- Antes de comenzar el proceso, introducimos un disco de 8GB en la máquina virtual (del tamaño de los dos ya presentes).
-antes de iniciarla, ya que durante su ejecución no podemos ni añadir ni retirar discos.
-En nuestro caso, tal y como releja la \ref{rprevprev} tiene por identificador \texttt{/dev/sdc}
+\begin{answer}1
+ Antes de comenzar el proceso, introducimos un disco de 8GB en la máquina virtual (del tamaño de los dos ya presentes), ya que durante su ejecución no podemos ni añadir ni retirar discos.
+En nuestro caso, tal y como refleja la \ref{rprevprev} tiene por identificador \texttt{/dev/sdc}
  
 \imagen{../images/31p3.png}{Se muestra \texttt{/dev/sdc} recién introducido}{rprevprev}{1.0}
 
@@ -288,7 +291,7 @@ RAID (en nuestro caso \texttt{md0} tal y como se indica en la \ref{rprev}), esto
 En la otra terminal tecleamos lo reflejado en la \ref{r1}. Esto marca el disco \texttt{/dev/sda1} como defectuoso
 dentro del RAID, y por tanto la próxima vez que se reinicie, el disco ya no formará parte del RAID.
 
-\imagen{../images/32p3.png}{Se marca el disco \texttt{/dev/sda1} como defectuoso}{r1}{1.0}
+\imagen{../images/33p3.png}{Se marca el disco \texttt{/dev/sda1} como defectuoso}{r1}{1.0}
 
 \texttt{/dev/sda1[2] (F)} se muestra en \texttt{/proc/mdstat} indicando que el disco ha fallado. Se refleja en la
 \ref{r2}
@@ -322,7 +325,8 @@ date). Otra tarea, se ejecutará una vez al mes y reunirá todos los directorios
 en un archivo \~/seguridad/dirCodigo.<numero>.gz. Presente las líneas de configuración de cron afectadas, explicando
 su significado. Si crea ficheros por lotes, presente y explique el código.}
 \begin{answer}
- Creamos en una carpeta, por ejemplo en \texttt{\$HOME} el siguiente script, de nombre \texttt{diario.sh}, y le damos permisos de ejecución.
+ Creamos en una carpeta, por ejemplo en \texttt{\$HOME} el siguiente script, de nombre \texttt{diario.sh}, y le damos permisos de ejecución con:
+ \texttt{chmod a+x \$HOME/diario.sh}
  
 \begin{lstlisting}[style=BashInputStyle]
 #!/bin/bash
@@ -337,11 +341,11 @@ else
 fi
 \end{lstlisting}
   
-  El script comprueba primero si existe el directorio \texttt{~/codigo}. Si no existe, lo crea. Si existe, crea una carpeta
-  con el formato \texttt{mes-dia-año} de la fecha en que nos encontremos en \texttt{~/seguridad}, y copia el contenido de \texttt{~/codigo}
+  El script comprueba primero si existe el directorio \texttt{\~/codigo}. Si no existe, lo crea. Si existe, crea una carpeta
+  con el formato \texttt{mes-dia-año} de la fecha en que nos encontremos en \texttt{\~/seguridad}, y copia el contenido de \texttt{\~/codigo}
   en ella.
   
-  Creamos en \texttt{\$HOME} también el siguiente script, de nombre \texttt{semanal.sh}:
+  Creamos en \texttt{\$HOME} también el siguiente script, de nombre \texttt{mensual.sh}, y le damos permisos de ejecución: \texttt{chmod a+x \$HOME/mensual.sh}
   
 \begin{lstlisting}[style=BashInputStyle]
 #!/bin/bash
@@ -378,14 +382,14 @@ tar -czvf ~/seguridad/dirCodigo$N.gz ~/seguridad/${MONTH}* &> /dev/null
   Ahora añadimos las siguientes líneas a \texttt{/etc/crontab}:
   \begin{lstlisting}[style=BashInputStyle]
    0 12 * * * $HOME/diario.sh
-   0 12 * * 0 $HOME/semanal.sh
+   0 12 * * 0 $HOME/mensual.sh
   \end{lstlisting}
   
   La primera línea hace que el script \texttt{diario.sh} se ejecute a las 12:00 AM  todos los días.
-  La segunda hace que el script \texttt{semanal.sh} se ejecute a las 12:00 AM todos los domingos.
+  La segunda hace que el script \texttt{mensual.sh} se ejecute a las 12:00 AM todos los domingos.
   
   Otra alternativa es usar \texttt{anacron} en lugar de \texttt{cron}, para lo que solamente habría que copiar
-  los ficheros \texttt{diario.sh} y \texttt{semanal.sh} a \texttt{/etc/cron.daily} y \texttt{/etc/cron.weekly} respectivamente.
+  los ficheros \texttt{diario.sh} y \texttt{mensual.sh} a \texttt{/etc/cron.daily} y \texttt{/etc/cron.monthly} respectivamente.
   La diferencia fundamental con \texttt{cron} es que \texttt{anacron} no espera que el equipo esté encendido continuamente, mientras que
   \texttt{cron} ejecuta las tareas a una hora prefijada y si el equipo no está encendido a esa hora, ya no vuelve a intentar ejecutar la tarea
   ese día, aunque el equipo esté operativo más tarde.
@@ -437,8 +441,8 @@ tar -czvf ~/seguridad/dirCodigo$N.gz ~/seguridad/${MONTH}* &> /dev/null
 El output que ofrece \texttt{dmesg} contiene el contenido el contenido del archivo \texttt{/var/log/dmesg}, pero
 sólo hasta cierto punto del proceso de boot del ordenador. De hecho \texttt{dmesg} está configurado en \texttt{/etc/init/dmesg.conf}
 para copiar cuando arranca el proceso \texttt{init} los logs iniciales del proceso de booteo (en concreto 524288 bytes del
-buffer donde se almacena esta información (conocido como \textit{kernel ring buffer}, porque una vez está lleno, la información
-sigue escribiéndose sobreescribiendo la información más antigua). Este archivo de configuración contiene el siguiente código:
+buffer donde se almacena esta información, conocido como \textit{kernel ring buffer}, porque una vez está lleno, la información
+sigue guardándose sobreescribiendo la información más antigua). Este archivo de configuración contiene el siguiente código:
 
 \begin{lstlisting}[style=BashInputStyle]
 # dmesg - save kernel messages
@@ -513,7 +517,7 @@ Aparte del archivo \texttt{/var/log/dmesg}, existen los siguientes:
     \imagen{../images/59p3.jpeg}{Clicamos en propiedades del recolector de datos}{59}{.8}
     \imagen{../images/510p3.jpeg}{En la pestaña Directory, cambiamos el directorio raíz a Escritorio$\backslash$ logs}{510}{.8}
 
- 
+ \cite{perfmonitor}
  
  \end{enumerate}
 
@@ -558,31 +562,98 @@ sudo /etc/init.d/apache2 restart
  
  \imagen{../images/63p3.jpeg}{Habilitando el front-end de \texttt{ganglia}}{ganglia}{1.0}
  
- Entramos en el navegador, a través de una IP que tenemos configurada en Ubuntu Server en la misma subred que el interfaz
- \texttt{vboxnet0} en la máquina host: \texttt{192.168.56.2}. Y entramos a la página: \texttt{192.168.56.2/ganglia}
+ Entramos en el navegador del host, a través de una IP que tenemos configurada en Ubuntu Server en la misma subred que el interfaz
+ \texttt{vboxnet0} en la máquina host: \texttt{192.168.56.2}. Y accedemos a la página: \texttt{192.168.56.2/ganglia}
 
  \texttt{ganglia} nos ofrece entre otras gráficas:
  \begin{itemize}
- \item La de la carga media del servidor: esto es número de procesos en el servidor por segundo, tal y como se muestra
- en la \ref{load}
+ \item La de la carga media del servidor: esto es número de procesos encolados en el servidor en cada instante, tal y como se muestra
+ en la imagen superior de \ref{load}. Se aprecia que el servidor está bastante desocupado, siendo la media del tiempo
+ muestreado 0.101 procesos.
  
-   \imagen{../images/64p3.jpeg}{Carga de procesos en el servidor}{load}{.8}
+   \imagen{../images/64p3.jpeg}{Carga de trabajos en el servidor}{load}{.8}
  
  \item Tal y como se refleja en la \ref{net} se refleja la carga de la red: número de bytes transferidos (en azul)
- y número de bytes recibidos (en verde) por el servidor.
+ y número de bytes recibidos (en verde) por el servidor. Como podemos observar, la media de bytes enviados por segundo
+ por el servidor es muy superior a la de recibidos (752 frente a 49.9)
  
    \imagen{../images/65p3.jpeg}{Tráfico de red del servidor}{net}{.8}
  \end{itemize}
- 
+ \cite{ganglia}
 \end{answer}
 
 \section{Cuestión 7}
 \textbf{Diseñe un pequeño modelo de BBDDs para un problema de su elección e impleméntelo en MySQL. También puede emplear un sistema
 de código abierto del que conozca su diseño de BBDDS. Plantee una combinación de consultas (al menos dos) que considere significativas
-y explique los resultados obtenidos en su ``profile''. se valorará especialmente que sea capaz de introducir cambios en el 
+y explique los resultados obtenidos en su ``profile''. Se valorará especialmente que sea capaz de introducir cambios en el 
 diseño de tablas o en las consultas que mejoren los resultados y que sepa justificar la mejora.}
 \begin{answer}
+ Iniciamos sesión en \texttt{mysql} con:
+ \begin{lstlisting}[style=BashInputStyle]
+  mysql -u root -p
+ \end{lstlisting}
+
+ Le indicamos a \texttt{mysql} que queremos usar la base de datos homónima y activar el profiling:
+  \begin{lstlisting}[style=BashInputStyle]
+  mysql > use mysql
+  mysql > set profiling=1;
+ \end{lstlisting}
  
+ El problema planteado es el siguiente: \textit{Tenemos una lista de proveedores con un nombre cada uno que no
+ tiene por qué ser diferente entre dos proveedores, y una lista de piezas de distinta nomenclatura, color y peso(indicado
+ en miligramos). Se quiere almacenar la información de las piezas que suministra cada proveedor y en qué cantidad.}
+ 
+ Creamos las tablas del problema:
+ \begin{lstlisting}[style=BashInputStyle]
+  mysql > create table proveedor( codpro char(3) not null primary key, nompro char(30) not null);
+  mysql > create table pieza( codpie char(3) primary key, nompie char(10) not null, color char(10), peso int);
+  mysql > create table ventas (codpro char(3), codpie char(3), cantidad int, primary key(codpro,codpie), foreign key(codpro) references proveedor(codpro), foreign key (codpie) references pieza(codpie));
+ \end{lstlisting}
+ 
+ Insertamos valores en las tablas:
+ \begin{lstlisting}[style=BashInputStyle]
+  mysql > insert into proveedor(codpro,nompro) values ('S1','José Fernández'),('S2','Jose Fernández'),('S3','Luisa Gómez'),('S4','Pedro Sánchez'),('S5', 'Maria Reyes');
+  mysql > insert into pieza(codpie,nompie,color,peso) values ('P1','Tuerca','Gris',20), ('P2','Tornillo','Rojo',23), ('P3','Arandela','Blanco',7), ('P4','Clavo','Gris',15), ('P5','Alcayata','Blanco',17);
+  mysql > insert into ventas(codpro,codpie,cantidad) values ('S1','P1',150),('S1','P3',800), ('S1','P4',200), ('S2','P1',700), ('S2','P3',700), ('S3','P3',170), ('S3','P5',560), ('S4','P3',320);
+ \end{lstlisting}
+ 
+ En la \ref{tablecontent} se muestra el contenido de las tablas una vez insertadas las tuplas.
+ 
+ \imagen{../images/71p3.jpeg}{Contenido de las tablas tras la inserción}{tablecontent}{1.0}
+
+ Queremos hallar los proveedores que suministran la pieza P1. Una forma de hacerlo sería:
+ \begin{lstlisting}[style=BashInputStyle]
+  mysql> select codpro from proveedor where EXISTS(select * from ventas where ventas.codpro = proveedor.codpro and ventas.codpie='P1');
+ \end{lstlisting}
+ 
+ Otra forma:
+ \begin{lstlisting}[style=BashInputStyle]
+  select codpro from ventas where ventas.codpie='P1';
+ \end{lstlisting}
+
+ Los resultados de profiling de ejecutar ambas sentencias se muestran en la \ref{prof1} y \ref{prof2}
+  
+  \imagen{../images/72p3.jpeg}{Resultados de profiling para la primera consulta}{prof1}{.8}
+  \imagen{../images/73p3.jpeg}{Resultados de profiling para la segunda consulta}{prof2}{.8}
+ 
+ Los tiempos de ejecución se muestran en \ref{timeexec}
+ 
+ \imagen{../images/74p3.jpeg}{Tiempos de ejecución de las consultas}{timeexec}{1}
+ 
+ La primera consulta tarda 0.00028 segundos. La segunda 0.00018425 segundos.
+ 
+ Podemos observar que la segunda sentencia es más rápida que la primera. Veamos por qué: supongamos que hay $m$ tuplas en \texttt{ventas}
+ y que hay $n$ en \texttt{proveedor}. Dado un proveedor \texttt{p}, la primera consulta recorre la tabla de \texttt{ventas} entera,
+ comprobando si coinciden en una tupla el proveedor con \texttt{p} y si la pieza vendida era \texttt{P1}; por tanto
+ la consulta tiene orden de eficiencia $\mathcal{O}(n\cdot m)$. La segunda consulta en cambio sólo itera por las distintas tuplas de
+ \texttt{ventas}, comprobando si el código de pieza es \texttt{P1}, por lo que tiene orden de eficiencia $\mathcal{O}(m)$. De ahí
+ que según la \ref{timeexec} sea 1.5 veces más rápida.
+ 
+ En términos de sus profiling, podemos añadir que la primera consulta pasa más tiempo buscando en la caché (porque incluye una
+ subconsulta). Fruto de ello hay más envíos de datos en la primera consulta que en la segunda, y se pasa más tiempo
+ liberando objetos que en la segunda consulta.
+ 
+ \cite{showm}
 \end{answer}
 
 \newpage
